@@ -1,5 +1,7 @@
 # ⚡ Unit Billing System
 
+## Website Link: https://stephen-semense.github.io/Billing-System/
+
 A lightweight, client-side billing calculator for **VECO Electric** and **MCWD Water** utility distribution across 4 residential units. Built with vanilla HTML, CSS, and JavaScript — no backend or dependencies required.
 
 ![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=flat&logo=html5&logoColor=white)
