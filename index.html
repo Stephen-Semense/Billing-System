@@ -337,7 +337,24 @@
             box-shadow: 0 6px 30px rgba(233, 69, 96, 0.6);
         }
 
-        @media print {
+                .print-only { display: none; }
+
+@media print {            .print-only .card-title {
+                color: #000 !important;
+                font-size: 11pt;
+                border-bottom: 1.5px solid #000;
+                padding-bottom: 3px;
+                margin-bottom: 8px;
+                font-weight: bold;
+            }
+            .print-only .card-title::before {
+                background: #000 !important;
+            }
+
+            .no-print { display: none !important; }
+            .print-only { display: block !important; }
+
+
             @page {
                 size: auto;
                 margin: 12mm 15mm 12mm 15mm;
@@ -568,6 +585,7 @@
         }
     </style>
 <base target="_blank">
+<base target="_blank">
 </head>
 <body>
     <div class="container">
@@ -633,9 +651,17 @@
                 <span>⚠️</span> Unit 4 amount is negative. Lower the rate or check readings.
             </div>
 
-            <div class="card">
+            <div class="card no-print">
                 <div class="card-title">VECO Bill Settings</div>
                 <div class="input-grid">
+                    <div class="input-group">
+                        <label>Bill Month</label>
+                        <input type="month" id="elec-month" placeholder="2026-05" oninput="updatePrintInfo()">
+                    </div>
+                    <div class="input-group">
+                        <label>Due Date</label>
+                        <input type="date" id="elec-due" oninput="updatePrintInfo()">
+                    </div>
                     <div class="input-group">
                         <label>Total VECO Bill (₱)</label>
                         <input type="number" id="elec-total" placeholder="4850" value="4850" oninput="calculateElectric()">
@@ -645,9 +671,22 @@
                         <input type="number" id="elec-rate" placeholder="11.50" value="11.50" step="0.01" oninput="calculateElectric()">
                     </div>
                 </div>
+            </div>            <div class="card print-only">
+                <div class="card-title">VECO Bill Information</div>
+                <div style="display: flex; gap: 20px; flex-wrap: wrap;">
+                    <div style="flex: 1; min-width: 150px;">
+                        <span style="color: #666; font-size: 9pt;">Bill Month</span>
+                        <div id="print-elec-month" style="font-weight: bold; font-size: 11pt; color: #000;">---</div>
+                    </div>
+                    <div style="flex: 1; min-width: 150px;">
+                        <span style="color: #666; font-size: 9pt;">Due Date</span>
+                        <div id="print-elec-due" style="font-weight: bold; font-size: 11pt; color: #000;">---</div>
+                    </div>
+                </div>
             </div>
 
-            <div class="card">
+
+            <div class="card no-print">
                 <div class="card-title">Submeter Readings - Units 1-3</div>
                 <div class="input-grid">
                     <div class="input-group">
@@ -675,7 +714,10 @@
                         <input type="number" id="elec-curr-3" placeholder="12450" oninput="calculateElectric()">
                     </div>
                 </div>
+            </div>            <div class="print-only" style="margin-bottom: 8px; font-weight: bold; font-size: 11pt; color: #000; border-bottom: 1.5px solid #000; padding-bottom: 3px;">
+                Submeter Readings
             </div>
+
 
             <div class="card">
                 <div class="card-title">Electric Bill Breakdown</div>
@@ -706,9 +748,17 @@
                 <span>⚠️</span> Unit 4 amount is negative. Lower the rate or check readings.
             </div>
 
-            <div class="card">
+            <div class="card no-print">
                 <div class="card-title">MCWD Bill Settings</div>
                 <div class="input-grid">
+                    <div class="input-group">
+                        <label>Bill Month</label>
+                        <input type="month" id="water-month" placeholder="2026-05" oninput="updatePrintInfo()">
+                    </div>
+                    <div class="input-group">
+                        <label>Due Date</label>
+                        <input type="date" id="water-due" oninput="updatePrintInfo()">
+                    </div>
                     <div class="input-group">
                         <label>Total MCWD Bill (₱)</label>
                         <input type="number" id="water-total" placeholder="980" value="980" oninput="calculateWater()">
@@ -718,9 +768,22 @@
                         <input type="number" id="water-rate" placeholder="22.00" value="22.00" step="0.01" oninput="calculateWater()">
                     </div>
                 </div>
+            </div>            <div class="card print-only">
+                <div class="card-title">MCWD Bill Information</div>
+                <div style="display: flex; gap: 20px; flex-wrap: wrap;">
+                    <div style="flex: 1; min-width: 150px;">
+                        <span style="color: #666; font-size: 9pt;">Bill Month</span>
+                        <div id="print-water-month" style="font-weight: bold; font-size: 11pt; color: #000;">---</div>
+                    </div>
+                    <div style="flex: 1; min-width: 150px;">
+                        <span style="color: #666; font-size: 9pt;">Due Date</span>
+                        <div id="print-water-due" style="font-weight: bold; font-size: 11pt; color: #000;">---</div>
+                    </div>
+                </div>
             </div>
 
-            <div class="card">
+
+            <div class="card no-print">
                 <div class="card-title">Submeter Readings - Units 1-3</div>
                 <div class="input-grid">
                     <div class="input-group">
@@ -748,7 +811,10 @@
                         <input type="number" id="water-curr-3" placeholder="605" oninput="calculateWater()">
                     </div>
                 </div>
+            </div>            <div class="print-only" style="margin-bottom: 8px; font-weight: bold; font-size: 11pt; color: #000; border-bottom: 1.5px solid #000; padding-bottom: 3px;">
+                Submeter Readings
             </div>
+
 
             <div class="card">
                 <div class="card-title">Water Bill Breakdown</div>
@@ -777,6 +843,20 @@
     <button class="print-btn" onclick="printReport()" title="Print Report">🖨️</button>
 
     <script>
+        // Update print info display
+        function updatePrintInfo() {
+            const elecMonth = document.getElementById('elec-month').value;
+            const elecDue = document.getElementById('elec-due').value;
+            const waterMonth = document.getElementById('water-month').value;
+            const waterDue = document.getElementById('water-due').value;
+
+            document.getElementById('print-elec-month').textContent = elecMonth || '---';
+            document.getElementById('print-elec-due').textContent = elecDue || '---';
+            document.getElementById('print-water-month').textContent = waterMonth || '---';
+            document.getElementById('print-water-due').textContent = waterDue || '---';
+        }
+
+
         // Store calculated values
         let electricData = { units: [0,0,0,0], total: 0 };
         let waterData = { units: [0,0,0,0], total: 0 };
