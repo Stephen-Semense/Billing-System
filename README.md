@@ -212,10 +212,10 @@ To change default values, edit the `value` attributes in the HTML:
 
 ```html
 <!-- Default electric total -->
-<input type="number" id="elec-total" value="4850">
+<input type="number" id="elec-total" value="0">
 
 <!-- Default rate -->
-<input type="number" id="elec-rate" value="11.50" step="0.01">
+<input type="number" id="elec-rate" value="17.50" step="0.01">
 ```
 
 ---
