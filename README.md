@@ -31,9 +31,10 @@ A lightweight, client-side billing calculator for **VECO Electric** and **MCWD W
 | **Dual Billing** | Separate tabs for Electric (VECO) and Water (MCWD) |
 | **Auto-Calculation** | Real-time computation as you type |
 | **4 Submetered Units** | All 4 units have individual previous/current readings |
-| **Bill Settings** | Enter total bill, month, due date, and rate per unit |
+| **Bill Settings** | Enter total bill, bill month, due date, and rate per unit |
+| **Dashboard Summary** | Total Electric, Total Water, Grand Total, and Total Units Bill |
+| **Total Units Bill** | Displays the sum of your actual VECO + MCWD bill inputs |
 | **Print-Ready Report** | One-click print with bill info, breakdown, and Unit 3–4 totals |
-| **Dashboard** | Consolidated summary of all units with grand totals |
 | **Responsive Design** | Works on desktop, tablet, and mobile |
 | **Zero Dependencies** | Single HTML file — no installation needed |
 
@@ -46,6 +47,8 @@ All 4 units use **individual submeters**. Each unit's bill is calculated from it
 ```
 Unit Bill = (Current Reading − Previous Reading) × Rate
 ```
+
+**Total Units Bill** (dashboard): Shows the sum of the **Total VECO Bill** and **Total MCWD Bill** amounts you enter in the Bill Settings. This reflects your actual utility provider bills.
 
 **Unit 3–4 Combined Total** (print-only): The sum of Unit 3 and Unit 4 **current readings** is displayed below the bill breakdown for quick reference.
 
@@ -79,7 +82,10 @@ python -m http.server 8000
 - Results update automatically as you type
 
 ### 4. View Dashboard (Home Tab)
-- Summary cards: Total Electric, Total Water, Grand Total, Unit 4 Total
+- **Total Electric** — Sum of calculated electric bills for all 4 units
+- **Total Water** — Sum of calculated water bills for all 4 units
+- **Grand Total** — Combined total of all calculated bills
+- **Total Units Bill** — Sum of your actual VECO + MCWD bill inputs
 - Consolidated table of all 4 units with per-unit and grand totals
 
 ### 5. Print Report
@@ -115,7 +121,7 @@ Unit 2: (8,510 − 8,450) × ₱11.50 = 60 kWh × ₱11.50 = ₱690.00
 Unit 3: (12,150 − 12,000) × ₱11.50 = 150 kWh × ₱11.50 = ₱1,725.00
 Unit 4: (9,620 − 9,500) × ₱11.50 = 120 kWh × ₱11.50 = ₱1,380.00
 ─────────────────────────────────────────────────────────────────
-Total: ₱4,600.00
+Total Calculated: ₱4,600.00
 Total Current kWh Unit 3–4: 12,150 + 9,620 = 21,770 kWh
 ```
 
@@ -127,11 +133,20 @@ Unit 2: (326 − 320) × ₱22.00 = 6 cu.m × ₱22.00 = ₱132.00
 Unit 3: (590 − 580) × ₱22.00 = 10 cu.m × ₱22.00 = ₱220.00
 Unit 4: (420 − 410) × ₱22.00 = 10 cu.m × ₱22.00 = ₱220.00
 ─────────────────────────────────────────────────────────────────
-Total: ₱748.00
+Total Calculated: ₱748.00
 Total Current Cu.m Unit 3–4: 590 + 420 = 1,010 cu.m
 ```
 
 ### Dashboard Summary
+
+| Card | Value | Source |
+|------|-------|--------|
+| **Total Electric** | ₱4,600.00 | Calculated from submeters |
+| **Total Water** | ₱748.00 | Calculated from submeters |
+| **Grand Total** | ₱5,348.00 | Sum of calculated totals |
+| **Total Units Bill** | ₱5,830.00 | VECO (₱4,850) + MCWD (₱980) |
+
+### Unit Breakdown Table
 
 | Unit | Electric | Water | Total |
 |------|----------|-------|-------|
@@ -152,7 +167,13 @@ Total Current Cu.m Unit 3–4: 590 + 420 = 1,010 cu.m
 Usage    = Current_Reading − Previous_Reading
 Bill     = Usage × Rate
 
-// Total Current Unit 3–4 (print-only)
+// Dashboard totals
+Total Electric   = Unit 1 Elec + Unit 2 Elec + Unit 3 Elec + Unit 4 Elec
+Total Water      = Unit 1 Water + Unit 2 Water + Unit 3 Water + Unit 4 Water
+Grand Total      = Total Electric + Total Water
+Total Units Bill = Total VECO Bill (input) + Total MCWD Bill (input)
+
+// Print-only: Total Current Unit 3–4
 TotalCurr34 = Current_Reading₃ + Current_Reading₄
 ```
 
@@ -181,7 +202,7 @@ unit-billing-system/
 ## 🖼️ Screenshots
 
 ### Dashboard View
-The home tab displays summary cards and a consolidated table of all 4 units.
+The home tab displays summary cards (Total Electric, Total Water, Grand Total, Total Units Bill) and a consolidated table of all 4 units.
 
 ### Electric Tab
 Input bill month, due date, rate, total bill, and submeter readings for all 4 units.
@@ -232,8 +253,8 @@ This project is open source and available under the [MIT License](LICENSE).
 
 ## 🙋 FAQ
 
-**Q: How is Unit 4 calculated?**
-> A: Unit 4 is calculated the same way as Units 1–3: `(Current − Previous) × Rate`. All 4 units have individual submeters.
+**Q: What is the difference between "Grand Total" and "Total Units Bill"?**
+> A: **Grand Total** is the sum of all calculated submeter bills. **Total Units Bill** is the sum of the actual VECO and MCWD bill amounts you entered. They may differ if your rate or readings don't exactly match the provider's billing.
 
 **Q: What is "Total Current kWh / Cu.m Unit 3–4"?**
 > A: This is the **sum of the current meter readings** for Unit 3 and Unit 4, shown only in the print report for quick reference.
