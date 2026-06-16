@@ -1031,11 +1031,23 @@
             const waterRate = document.getElementById('water-rate').value;
             const waterTotalBill = document.getElementById('water-total-bill').value;
 
-            document.getElementById('print-elec-month').textContent = elecMonth || '---';
+            // Convert YYYY-MM to "Month YYYY" format
+            const monthNames = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+            let elecMonthDisplay = '---';
+            if (elecMonth) {
+                const [year, month] = elecMonth.split('-');
+                elecMonthDisplay = monthNames[parseInt(month, 10) - 1] + ' ' + year;
+            }
+            let waterMonthDisplay = '---';
+            if (waterMonth) {
+                const [year, month] = waterMonth.split('-');
+                waterMonthDisplay = monthNames[parseInt(month, 10) - 1] + ' ' + year;
+            }
+            document.getElementById('print-elec-month').textContent = elecMonthDisplay;
             document.getElementById('print-elec-due').textContent = elecDue || '---';
             document.getElementById('print-elec-rate').textContent = elecRate ? '₱' + parseFloat(elecRate).toFixed(2) : '---';
             document.getElementById('print-elec-total-bill').textContent = elecTotalBill ? '₱' + parseFloat(elecTotalBill).toLocaleString('en-PH', {minimumFractionDigits: 2, maximumFractionDigits: 2}) : '---';
-            document.getElementById('print-water-month').textContent = waterMonth || '---';
+            document.getElementById('print-water-month').textContent = waterMonthDisplay;
             document.getElementById('print-water-due').textContent = waterDue || '---';
             document.getElementById('print-water-rate').textContent = waterRate ? '₱' + parseFloat(waterRate).toFixed(2) : '---';
             document.getElementById('print-water-total-bill').textContent = waterTotalBill ? '₱' + parseFloat(waterTotalBill).toLocaleString('en-PH', {minimumFractionDigits: 2, maximumFractionDigits: 2}) : '---';
