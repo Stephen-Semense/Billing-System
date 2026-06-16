@@ -433,37 +433,6 @@
             .no-print { display: none !important; }
             .print-only { display: block !important; }
 
-            /* Print top summary for Units 3+4 */
-            .print-top-summary {
-                display: block !important;
-                background: #f5f5f5 !important;
-                border: 1px solid #000 !important;
-                border-radius: 4px;
-                padding: 4px 8px;
-                margin-bottom: 6px;
-                color: #000 !important;
-            }
-
-            .print-top-summary .summary-row {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                gap: 10px;
-            }
-
-            .print-top-summary .summary-label {
-                font-size: 8pt;
-                font-weight: 600;
-                color: #333;
-            }
-
-            .print-top-summary .summary-value {
-                font-size: 10pt;
-                font-weight: 700;
-                color: #000;
-                font-family: 'Courier New', monospace;
-            }
-
             @page {
                 size: A4 portrait;
                 margin: 8mm 10mm 8mm 10mm;
@@ -607,6 +576,27 @@
                 width: 100% !important;
                 table-layout: fixed;
                 border-collapse: collapse;
+            }
+
+            /* Solution column in print */
+            td.print-only, th.print-only {
+                display: table-cell !important;
+                border-bottom: 0.5px solid #bbb;
+                padding: 2px 4px;
+                font-size: 7.5pt;
+                color: #000 !important;
+            }
+
+            thead th.print-only {
+                background: #e0e0e0 !important;
+                color: #000 !important;
+                border-bottom: 1px solid #000;
+                font-size: 7pt;
+                font-weight: bold;
+            }
+
+            tbody tr:last-child td.print-only {
+                border-bottom: 1px solid #000;
             }
 
             thead th {
@@ -896,6 +886,7 @@
                                 <th>kWh Used</th>
                                 <th class="no-print">Rate</th>
                                 <th>Bill Amount</th>
+                                <th class="print-only">Solution</th>
                             </tr>
                         </thead>
                         <tbody id="elec-table-body"></tbody>
@@ -1004,6 +995,7 @@
                                 <th>cu.m Used</th>
                                 <th class="no-print">Rate</th>
                                 <th>Bill Amount</th>
+                                <th class="print-only">Solution</th>
                             </tr>
                         </thead>
                         <tbody id="water-table-body"></tbody>
@@ -1079,8 +1071,7 @@
             let totalBill = 0;
             let html = '';
             let unitBills = [];
-            let u3Curr = 0;
-            let u4Curr = 0;
+            let totalKwhUsed = 0;
 
             for (let i = 1; i <= 4; i++) {
                 const prev = parseFloat(document.getElementById(`elec-prev-${i}`).value) || 0;
@@ -1089,9 +1080,7 @@
                 const bill = used * rate;
                 totalBill += bill;
                 unitBills.push(bill);
-
-                if (i === 3) u3Curr = curr;
-                if (i === 4) u4Curr = curr;
+                totalKwhUsed += used;
 
                 html += `
                     <tr>
@@ -1101,6 +1090,7 @@
                         <td>${used > 0 ? used.toLocaleString() : 0}</td>
                         <td class="rate-cell no-print">₱${rate.toFixed(2)}</td>
                         <td class="amount ${bill >= 0 ? 'positive' : 'negative'}">${formatPeso(bill)}</td>
+                        <td class="print-only" style="font-size:7.5pt;color:#000;">${used > 0 ? used.toLocaleString() : 0} kWh × ₱${rate.toFixed(2)} = ${formatPeso(bill)}</td>
                     </tr>
                 `;
             }
@@ -1112,16 +1102,17 @@
                     <td colspan="4" style="text-align:right;font-weight:700;color:#e94560;">TOTAL</td>
                     <td class="rate-cell no-print"></td>
                     <td class="amount" style="color:#e94560;font-size:1.2rem;">${formatPeso(totalBill)}</td>
+                    <td class="print-only"></td>
                 </tr>
             `;
 
-            // Add print-only summary row: sum of Unit 3 + Unit 4 CURRENT readings
-            const u34Total = u3Curr + u4Curr;
+            // Add print-only summary row: total kWh used by all units
             html += `
                 <tr class="print-only" style="border-top:1px solid #000;">
-                    <td colspan="4" style="text-align:right;font-weight:700;color:#000;">Total Current kWh Unit 3-4</td>
+                    <td colspan="4" style="text-align:right;font-weight:700;color:#000;">Total kWh Used</td>
                     <td></td>
-                    <td style="font-weight:700;color:#000;font-family:'Courier New',monospace;">${u34Total.toLocaleString()} kWh</td>
+                    <td style="font-weight:700;color:#000;font-family:'Courier New',monospace;">${totalKwhUsed.toLocaleString()} kWh</td>
+                    <td></td>
                 </tr>
             `;
 
@@ -1136,8 +1127,7 @@
             let totalBill = 0;
             let html = '';
             let unitBills = [];
-            let u3Curr = 0;
-            let u4Curr = 0;
+            let totalCuMUsed = 0;
 
             for (let i = 1; i <= 4; i++) {
                 const prev = parseFloat(document.getElementById(`water-prev-${i}`).value) || 0;
@@ -1146,9 +1136,7 @@
                 const bill = used * rate;
                 totalBill += bill;
                 unitBills.push(bill);
-
-                if (i === 3) u3Curr = curr;
-                if (i === 4) u4Curr = curr;
+                totalCuMUsed += used;
 
                 html += `
                     <tr>
@@ -1158,6 +1146,7 @@
                         <td>${used > 0 ? used.toLocaleString() : 0}</td>
                         <td class="rate-cell no-print">₱${rate.toFixed(2)}</td>
                         <td class="amount ${bill >= 0 ? 'positive' : 'negative'}">${formatPeso(bill)}</td>
+                        <td class="print-only" style="font-size:7.5pt;color:#000;">${used > 0 ? used.toLocaleString() : 0} kWh × ₱${rate.toFixed(2)} = ${formatPeso(bill)}</td>
                     </tr>
                 `;
             }
@@ -1169,16 +1158,17 @@
                     <td colspan="4" style="text-align:right;font-weight:700;color:#2ecc71;">TOTAL</td>
                     <td class="rate-cell no-print"></td>
                     <td class="amount" style="color:#2ecc71;font-size:1.2rem;">${formatPeso(totalBill)}</td>
+                    <td class="print-only"></td>
                 </tr>
             `;
 
-            // Add print-only summary row: sum of Unit 3 + Unit 4 CURRENT readings
-            const u34Total = u3Curr + u4Curr;
+            // Add print-only summary row: total cu.m used by all units
             html += `
                 <tr class="print-only" style="border-top:1px solid #000;">
-                    <td colspan="4" style="text-align:right;font-weight:700;color:#000;">Total Current Cu.m Unit 3-4</td>
+                    <td colspan="4" style="text-align:right;font-weight:700;color:#000;">Total cu.m Used</td>
                     <td></td>
-                    <td style="font-weight:700;color:#000;font-family:'Courier New',monospace;">${u34Total.toLocaleString()} cu.m</td>
+                    <td style="font-weight:700;color:#000;font-family:'Courier New',monospace;">${totalCuMUsed.toLocaleString()} cu.m</td>
+                    <td></td>
                 </tr>
             `;
 
