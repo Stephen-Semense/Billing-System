@@ -30,10 +30,10 @@ A lightweight, client-side billing calculator for **VECO Electric** and **MCWD W
 |---------|-------------|
 | **Dual Billing** | Separate tabs for Electric (VECO) and Water (MCWD) |
 | **Auto-Calculation** | Real-time computation as you type |
-| **Unit 4 Logic** | Automatically calculates the remaining balance for Unit 4 (master meter) |
+| **4 Submetered Units** | All 4 units have individual previous/current readings |
+| **Bill Settings** | Enter total bill, month, due date, and rate per unit |
+| **Print-Ready Report** | One-click print with bill info, breakdown, and Unit 3–4 totals |
 | **Dashboard** | Consolidated summary of all units with grand totals |
-| **Validation Alerts** | Warns when Unit 4 amount turns negative (over-distribution) |
-| **Print Ready** | One-click print-friendly report generation |
 | **Responsive Design** | Works on desktop, tablet, and mobile |
 | **Zero Dependencies** | Single HTML file — no installation needed |
 
@@ -41,16 +41,13 @@ A lightweight, client-side billing calculator for **VECO Electric** and **MCWD W
 
 ## 🧮 How It Works
 
-This system uses a **"remaining balance"** method for Unit 4:
-
-1. **Units 1–3** have individual submeters. Their bills are calculated directly from usage × rate.
-2. **Unit 4** does not have a submeter. Its bill is whatever remains after subtracting Units 1–3 from the total utility bill.
+All 4 units use **individual submeters**. Each unit's bill is calculated from its own usage multiplied by the rate.
 
 ```
-Unit 4 Bill = Total Bill − (Unit 1 + Unit 2 + Unit 3)
+Unit Bill = (Current Reading − Previous Reading) × Rate
 ```
 
-> ⚠️ **Important**: If the submeter total exceeds the main bill, Unit 4 becomes negative. The system will display a warning — lower your rate or verify your readings.
+**Unit 3–4 Combined Total** (print-only): The sum of Unit 3 and Unit 4 **current readings** is displayed below the bill breakdown for quick reference.
 
 ---
 
@@ -66,24 +63,31 @@ python -m http.server 8000
 ```
 
 ### 2. Enter Electric Bill (VECO Tab)
-- **Total VECO Bill** — The amount shown on your VECO statement
+- **Bill Month** — The billing period (e.g., `2026-05`)
+- **Due Date** — Payment deadline
 - **Rate per kWh** — Your current electricity rate
-- **Previous / Current Readings** — Submeter readings for Units 1, 2, and 3
-- Click **Calculate** or just type — results update automatically
+- **Total VECO Bill** — The actual amount on your VECO statement
+- **Previous / Current Readings** — Submeter readings for Units 1, 2, 3, and 4
+- Results update automatically as you type
 
 ### 3. Enter Water Bill (MCWD Tab)
-- **Total MCWD Bill** — The amount shown on your MCWD statement
+- **Bill Month** — The billing period
+- **Due Date** — Payment deadline
 - **Rate per cu.m** — Your current water rate
-- **Previous / Current Readings** — Submeter readings for Units 1, 2, and 3
-- Click **Calculate** or just type — results update automatically
+- **Total MCWD Bill** — The actual amount on your MCWD statement
+- **Previous / Current Readings** — Submeter readings for Units 1, 2, 3, and 4
+- Results update automatically as you type
 
 ### 4. View Dashboard (Home Tab)
-- See consolidated totals for all 4 units
-- Electric + Water breakdown per unit
-- Grand total at a glance
+- Summary cards: Total Electric, Total Water, Grand Total, Unit 4 Total
+- Consolidated table of all 4 units with per-unit and grand totals
 
 ### 5. Print Report
-Click the floating **🖨️ Print** button (bottom-right) to generate a clean, print-friendly report.
+Click the floating **🖨️ Print** button (bottom-right) to generate a clean, print-friendly report showing:
+- Bill information (Month, Due Date, Rate, Total Bill)
+- Submeter readings table
+- Bill breakdown per unit
+- **Total Current kWh / Cu.m Unit 3–4** (sum of current readings)
 
 ---
 
@@ -101,6 +105,7 @@ Submeter readings are recorded as follows:
 | Unit 1 | 10,250 | 10,320 | 450 | 458 |
 | Unit 2 | 8,450 | 8,510 | 320 | 326 |
 | Unit 3 | 12,000 | 12,150 | 580 | 590 |
+| Unit 4 | 9,500 | 9,620 | 410 | 420 |
 
 ### Electric Calculation (VECO)
 
@@ -108,9 +113,10 @@ Submeter readings are recorded as follows:
 Unit 1: (10,320 − 10,250) × ₱11.50 = 70 kWh × ₱11.50 = ₱805.00
 Unit 2: (8,510 − 8,450) × ₱11.50 = 60 kWh × ₱11.50 = ₱690.00
 Unit 3: (12,150 − 12,000) × ₱11.50 = 150 kWh × ₱11.50 = ₱1,725.00
+Unit 4: (9,620 − 9,500) × ₱11.50 = 120 kWh × ₱11.50 = ₱1,380.00
 ─────────────────────────────────────────────────────────────────
-Submeter Total: ₱3,220.00
-Unit 4 (Remaining): ₱4,850.00 − ₱3,220.00 = ₱1,630.00
+Total: ₱4,600.00
+Total Current kWh Unit 3–4: 12,150 + 9,620 = 21,770 kWh
 ```
 
 ### Water Calculation (MCWD)
@@ -119,9 +125,10 @@ Unit 4 (Remaining): ₱4,850.00 − ₱3,220.00 = ₱1,630.00
 Unit 1: (458 − 450) × ₱22.00 = 8 cu.m × ₱22.00 = ₱176.00
 Unit 2: (326 − 320) × ₱22.00 = 6 cu.m × ₱22.00 = ₱132.00
 Unit 3: (590 − 580) × ₱22.00 = 10 cu.m × ₱22.00 = ₱220.00
+Unit 4: (420 − 410) × ₱22.00 = 10 cu.m × ₱22.00 = ₱220.00
 ─────────────────────────────────────────────────────────────────
-Submeter Total: ₱528.00
-Unit 4 (Remaining): ₱980.00 − ₱528.00 = ₱452.00
+Total: ₱748.00
+Total Current Cu.m Unit 3–4: 590 + 420 = 1,010 cu.m
 ```
 
 ### Dashboard Summary
@@ -131,8 +138,8 @@ Unit 4 (Remaining): ₱980.00 − ₱528.00 = ₱452.00
 | Unit 1 | ₱805.00 | ₱176.00 | **₱981.00** |
 | Unit 2 | ₱690.00 | ₱132.00 | **₱822.00** |
 | Unit 3 | ₱1,725.00 | ₱220.00 | **₱1,945.00** |
-| Unit 4 (Remaining) | ₱1,630.00 | ₱452.00 | **₱2,082.00** |
-| **GRAND TOTAL** | **₱4,850.00** | **₱980.00** | **₱5,830.00** |
+| Unit 4 | ₱1,380.00 | ₱220.00 | **₱1,600.00** |
+| **GRAND TOTAL** | **₱4,600.00** | **₱748.00** | **₱5,348.00** |
 
 ---
 
@@ -141,28 +148,19 @@ Unit 4 (Remaining): ₱980.00 − ₱528.00 = ₱452.00
 ### Core Logic
 
 ```javascript
-// For each submeter unit (1-3)
+// For each unit (1–4)
 Usage    = Current_Reading − Previous_Reading
 Bill     = Usage × Rate
 
-// For master meter unit (4)
-Subtotal = Bill₁ + Bill₂ + Bill₃
-Unit4    = Total_Bill − Subtotal
+// Total Current Unit 3–4 (print-only)
+TotalCurr34 = Current_Reading₃ + Current_Reading₄
 ```
-
-### Validation Rules
-
-| Condition | Result |
-|-----------|--------|
-| `Unit4 ≥ 0` | ✅ Normal — display in yellow/neutral |
-| `Unit4 < 0` | ⚠️ Warning — submeters exceed total bill |
-| `Usage < 0` | ❌ Invalid — current reading less than previous |
 
 ### Currency Formatting
 
 All amounts are displayed in **Philippine Peso (₱)** with 2 decimal places:
 ```javascript
-'₱' + amount.toLocaleString('en-PH', { minimumFractionDigits: 2 })
+'₱' + amount.toLocaleString('en-PH', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
 // Example: 4850 → "₱4,850.00"
 ```
 
@@ -183,16 +181,16 @@ unit-billing-system/
 ## 🖼️ Screenshots
 
 ### Dashboard View
-The home tab displays summary cards and a consolidated table of all units.
+The home tab displays summary cards and a consolidated table of all 4 units.
 
 ### Electric Tab
-Input total bill, rate, and submeter readings. Unit 4 calculates automatically.
+Input bill month, due date, rate, total bill, and submeter readings for all 4 units.
 
 ### Water Tab
 Same logic as electric, configured for MCWD water billing.
 
 ### Print Preview
-Clean, tabular output optimized for printing or saving as PDF.
+Clean output with bill information, submeter readings, bill breakdown, and Unit 3–4 combined totals.
 
 ---
 
@@ -211,11 +209,11 @@ Since this is vanilla HTML/CSS/JS, there is no build process, bundler, or packag
 To change default values, edit the `value` attributes in the HTML:
 
 ```html
-<!-- Default electric total -->
-<input type="number" id="elec-total" value="0">
+<!-- Default electric rate -->
+<input type="number" id="elec-rate" value="17.00" step="0.01">
 
-<!-- Default rate -->
-<input type="number" id="elec-rate" value="17.50" step="0.01">
+<!-- Default water rate -->
+<input type="number" id="water-rate" value="28.00" step="0.01">
 ```
 
 ---
@@ -234,17 +232,20 @@ This project is open source and available under the [MIT License](LICENSE).
 
 ## 🙋 FAQ
 
-**Q: Why is Unit 4 showing a negative amount?**
-> A: The combined submeter bills for Units 1–3 exceed the total bill. Lower the rate or double-check your readings.
+**Q: How is Unit 4 calculated?**
+> A: Unit 4 is calculated the same way as Units 1–3: `(Current − Previous) × Rate`. All 4 units have individual submeters.
+
+**Q: What is "Total Current kWh / Cu.m Unit 3–4"?**
+> A: This is the **sum of the current meter readings** for Unit 3 and Unit 4, shown only in the print report for quick reference.
 
 **Q: Can I add more units?**
-> A: Currently supports exactly 4 units (3 submetered + 1 master). To add more, modify the JavaScript loops (`for (let i = 1; i <= 3; i++)`) and add corresponding HTML inputs.
+> A: Currently supports exactly 4 units. To add more, modify the JavaScript loops (`for (let i = 1; i <= 4; i++)`) and add corresponding HTML inputs.
 
 **Q: Does it save data between sessions?**
 > A: No — refresh the page and data resets. This is by design for privacy. Use the Print feature to save a PDF record.
 
 **Q: Can I use this for commercial buildings?**
-> A: Yes, as long as your billing structure follows the "remaining balance" method for the master meter unit.
+> A: Yes, as long as each unit has its own submeter.
 
 ---
 
