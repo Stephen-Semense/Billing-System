@@ -386,10 +386,37 @@
             color: #e74c3c;
         }
 
-        .print-btn {
+        /* Print Controls */
+        .print-controls {
             position: fixed;
             bottom: 30px;
             right: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 10px;
+            z-index: 100;
+        }
+
+        .print-mode-select {
+            padding: 10px 15px;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.2);
+            background: rgba(30,30,50,0.9);
+            color: #e0e0e0;
+            font-size: 0.9rem;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+            outline: none;
+            min-width: 160px;
+        }
+
+        .print-mode-select option {
+            background: #1a1a2e;
+            color: #e0e0e0;
+        }
+
+        .print-btn {
             width: 60px;
             height: 60px;
             border-radius: 50%;
@@ -400,7 +427,6 @@
             cursor: pointer;
             box-shadow: 0 4px 20px rgba(233, 69, 96, 0.4);
             transition: all 0.3s ease;
-            z-index: 100;
         }
 
         .print-btn:hover {
@@ -483,7 +509,7 @@
                 margin: 0;
             }
 
-            .tabs, .print-btn, .actions {
+            .tabs, .print-controls, .actions {
                 display: none !important;
             }
 
@@ -717,6 +743,31 @@
             html {
                 zoom: 0.85;
             }
+
+            /* ===== PRINT UNITS MODE ===== */
+            /* In Print Units mode, hide solution column */
+            body.print-units-mode td.print-only,
+            body.print-units-mode th.print-only {
+                display: none !important;
+            }
+
+            /* In Print Units mode, hide specific elements */
+            body.print-units-mode .print-units-hide {
+                display: none !important;
+            }
+
+            /* In Print Units mode, hide the submeter input cards (they have no-print class already) */
+            /* The print-only submeter reading display stays visible */
+
+            /* In Print Units mode, only show specific sections */
+            body.print-units-mode #home .summary-cards,
+            body.print-units-mode #home .card:has(.card-title),
+            body.print-units-mode #electric .card:has(.print-info-row),
+            body.print-units-mode #electric .card:has(#elec-table-body),
+            body.print-units-mode #water .card:has(.print-info-row),
+            body.print-units-mode #water .card:has(#water-table-body) {
+                display: block !important;
+            }
         }
 
         @media (max-width: 768px) {
@@ -727,6 +778,7 @@
             .submeter-table input { padding: 8px; font-size: 0.9rem; }
         }
     </style>
+<base target="_blank">
 <base target="_blank">
 <base target="_blank">
 <base target="_blank">
@@ -758,12 +810,12 @@
                     <div class="label">Total Water</div>
                     <div class="value" id="dash-total-water">₱0.00</div>
                 </div>
-                <div class="summary-card total">
+                <div class="summary-card total print-units-hide">
                     <div class="icon">💰</div>
                     <div class="label">Grand Total</div>
                     <div class="value" id="dash-grand-total">₱0.00</div>
                 </div>
-                <div class="summary-card unit4">
+                <div class="summary-card unit4 print-units-hide">
                     <div class="icon">🏠</div>
                     <div class="label">Total Units Bill</div>
                     <div class="value" id="dash-unit4-total">₱0.00</div>
@@ -824,11 +876,11 @@
                         <span>Due Date</span>
                         <div id="print-elec-due">---</div>
                     </div>
-                    <div class="print-info-item">
+                    <div class="print-info-item print-units-hide">
                         <span>Rate per kWh</span>
                         <div id="print-elec-rate">---</div>
                     </div>
-                    <div class="print-info-item">
+                    <div class="print-info-item print-units-hide">
                         <span>Total VECO Bill</span>
                         <div id="print-elec-total-bill">---</div>
                     </div>
@@ -933,11 +985,11 @@
                         <span>Due Date</span>
                         <div id="print-water-due">---</div>
                     </div>
-                    <div class="print-info-item">
+                    <div class="print-info-item print-units-hide">
                         <span>Rate per cu.m</span>
                         <div id="print-water-rate">---</div>
                     </div>
-                    <div class="print-info-item">
+                    <div class="print-info-item print-units-hide">
                         <span>Total MCWD Bill</span>
                         <div id="print-water-total-bill">---</div>
                     </div>
@@ -1009,7 +1061,14 @@
         </div>
     </div>
 
-    <button class="print-btn" onclick="printReport()" title="Print Report">🖨️</button>
+    <!-- Print Controls -->
+    <div class="print-controls no-print">
+        <select class="print-mode-select" id="printModeSelect">
+            <option value="default">🖨️ Print Default</option>
+            <option value="units">📋 Print Units</option>
+        </select>
+        <button class="print-btn" onclick="printReport()" title="Print Report">🖨️</button>
+    </div>
 
     <script>
         // Update print info display
@@ -1109,9 +1168,8 @@
             // Add print-only summary row: total kWh used by all units
             html += `
                 <tr class="print-only" style="border-top:1px solid #000;">
-                    <td colspan="4" style="text-align:right;font-weight:700;color:#000;">Total kWh Used</td>
-                    <td></td>
-                    <td style="font-weight:700;color:#000;font-family:'Courier New',monospace;">${totalKwhUsed.toLocaleString()} kWh</td>
+                    <td colspan="5" style="text-align:right;font-weight:700;color:#000;white-space:nowrap;">Total kWh Used</td>
+                    <td style="font-weight:700;color:#000;font-family:'Courier New',monospace;white-space:nowrap;">${totalKwhUsed.toLocaleString()} kWh</td>
                     <td></td>
                 </tr>
             `;
@@ -1146,7 +1204,7 @@
                         <td>${used > 0 ? used.toLocaleString() : 0}</td>
                         <td class="rate-cell no-print">₱${rate.toFixed(2)}</td>
                         <td class="amount ${bill >= 0 ? 'positive' : 'negative'}">${formatPeso(bill)}</td>
-                        <td class="print-only" style="font-size:7.5pt;color:#000;">${used > 0 ? used.toLocaleString() : 0} kWh × ₱${rate.toFixed(2)} = ${formatPeso(bill)}</td>
+                        <td class="print-only" style="font-size:7.5pt;color:#000;">${used > 0 ? used.toLocaleString() : 0} cu.m × ₱${rate.toFixed(2)} = ${formatPeso(bill)}</td>
                     </tr>
                 `;
             }
@@ -1165,9 +1223,8 @@
             // Add print-only summary row: total cu.m used by all units
             html += `
                 <tr class="print-only" style="border-top:1px solid #000;">
-                    <td colspan="4" style="text-align:right;font-weight:700;color:#000;">Total cu.m Used</td>
-                    <td></td>
-                    <td style="font-weight:700;color:#000;font-family:'Courier New',monospace;">${totalCuMUsed.toLocaleString()} cu.m</td>
+                    <td colspan="5" style="text-align:right;font-weight:700;color:#000;white-space:nowrap;">Total cu.m Used</td>
+                    <td style="font-weight:700;color:#000;font-family:'Courier New',monospace;white-space:nowrap;">${totalCuMUsed.toLocaleString()} cu.m</td>
                     <td></td>
                 </tr>
             `;
@@ -1238,15 +1295,25 @@
         }
 
         function printReport() {
+            const mode = document.getElementById('printModeSelect').value;
             const allTabs = document.querySelectorAll('.tab-content');
             const activeTab = document.querySelector('.tab-content.active');
 
-            allTabs.forEach(tab => tab.classList.add('active'));
+            if (mode === 'units') {
+                // Print Units mode
+                document.body.classList.add('print-units-mode');
+                allTabs.forEach(tab => tab.classList.add('active'));
+            } else {
+                // Print Default mode
+                document.body.classList.remove('print-units-mode');
+                allTabs.forEach(tab => tab.classList.add('active'));
+            }
 
             window.print();
 
             allTabs.forEach(tab => tab.classList.remove('active'));
             if (activeTab) activeTab.classList.add('active');
+            document.body.classList.remove('print-units-mode');
         }
 
         // Initialize
