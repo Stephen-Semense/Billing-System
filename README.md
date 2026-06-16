@@ -16,6 +16,7 @@ A lightweight, client-side billing calculator for **VECO Electric** and **MCWD W
 - [Features](#features)
 - [How It Works](#how-it-works)
 - [Usage Instructions](#usage-instructions)
+- [Print Modes](#print-modes)
 - [Example Computation](#example-computation)
 - [Formulas](#formulas)
 - [File Structure](#file-structure)
@@ -34,7 +35,8 @@ A lightweight, client-side billing calculator for **VECO Electric** and **MCWD W
 | **Bill Settings** | Enter total bill, bill month, due date, and rate per unit |
 | **Dashboard Summary** | Total Electric, Total Water, Grand Total, and Total Units Bill |
 | **Total Units Bill** | Displays the sum of your actual VECO + MCWD bill inputs |
-| **Print-Ready Report** | One-click print with bill info, breakdown, and Unit 3–4 totals |
+| **Two Print Modes** | Print Default (full report) and Print Units (clean unit view) |
+| **Print-Ready Report** | One-click print with bill info, breakdown, and submeter readings |
 | **Responsive Design** | Works on desktop, tablet, and mobile |
 | **Zero Dependencies** | Single HTML file — no installation needed |
 
@@ -49,8 +51,6 @@ Unit Bill = (Current Reading − Previous Reading) × Rate
 ```
 
 **Total Units Bill** (dashboard): Shows the sum of the **Total VECO Bill** and **Total MCWD Bill** amounts you enter in the Bill Settings. This reflects your actual utility provider bills.
-
-**Unit 3–4 Combined Total** (print-only): The sum of Unit 3 and Unit 4 **current readings** is displayed below the bill breakdown for quick reference.
 
 ---
 
@@ -89,11 +89,39 @@ python -m http.server 8000
 - Consolidated table of all 4 units with per-unit and grand totals
 
 ### 5. Print Report
-Click the floating **🖨️ Print** button (bottom-right) to generate a clean, print-friendly report showing:
-- Bill information (Month, Due Date, Rate, Total Bill)
-- Submeter readings table
-- Bill breakdown per unit
-- **Total Current kWh / Cu.m Unit 3–4** (sum of current readings)
+Click the floating **🖨️ Print** button (bottom-right) and choose your print mode:
+
+---
+
+## 🖨️ Print Modes
+
+The system offers **two print layouts** via a dropdown selector:
+
+### Print Default
+Shows the **complete report** with all details:
+- Summary cards (Total Electric, Total Water, Grand Total, Total Units Bill)
+- Home — Bill Summary table
+- VECO & MCWD Bill Information (Month, Due Date, Rate, Total Bill)
+- Submeter Readings
+- Electric & Water Bill Breakdown tables
+- **Solution column** showing the computation formula per unit
+- Total kWh / cu.m Used summary
+
+### Print Units
+Shows a **clean, simplified report** focused on unit billing:
+- Summary cards (Total Electric, Total Water only)
+- Home — Bill Summary table
+- VECO & MCWD Bill Information (Month, Due Date only)
+- Submeter Readings
+- Electric & Water Bill Breakdown tables (no Solution column)
+- Total kWh / cu.m Used summary
+
+**Hidden in Print Units:**
+- ❌ Grand Total summary card
+- ❌ Total Units Bill summary card
+- ❌ Rate per kWh / cu.m
+- ❌ Total VECO / MCWD Bill amounts
+- ❌ Solution column (computation formulas)
 
 ---
 
@@ -122,7 +150,7 @@ Unit 3: (12,150 − 12,000) × ₱11.50 = 150 kWh × ₱11.50 = ₱1,725.00
 Unit 4: (9,620 − 9,500) × ₱11.50 = 120 kWh × ₱11.50 = ₱1,380.00
 ─────────────────────────────────────────────────────────────────
 Total Calculated: ₱4,600.00
-Total Current kWh Unit 3–4: 12,150 + 9,620 = 21,770 kWh
+Total kWh Used: 70 + 60 + 150 + 120 = 400 kWh
 ```
 
 ### Water Calculation (MCWD)
@@ -134,7 +162,7 @@ Unit 3: (590 − 580) × ₱22.00 = 10 cu.m × ₱22.00 = ₱220.00
 Unit 4: (420 − 410) × ₱22.00 = 10 cu.m × ₱22.00 = ₱220.00
 ─────────────────────────────────────────────────────────────────
 Total Calculated: ₱748.00
-Total Current Cu.m Unit 3–4: 590 + 420 = 1,010 cu.m
+Total cu.m Used: 8 + 6 + 10 + 10 = 34 cu.m
 ```
 
 ### Dashboard Summary
@@ -173,8 +201,9 @@ Total Water      = Unit 1 Water + Unit 2 Water + Unit 3 Water + Unit 4 Water
 Grand Total      = Total Electric + Total Water
 Total Units Bill = Total VECO Bill (input) + Total MCWD Bill (input)
 
-// Print-only: Total Current Unit 3–4
-TotalCurr34 = Current_Reading₃ + Current_Reading₄
+// Print-only: Total kWh / cu.m Used
+TotalKwhUsed = kWh₁ + kWh₂ + kWh₃ + kWh₄
+TotalCuMUsed = cu.m₁ + cu.m₂ + cu.m₃ + cu.m₄
 ```
 
 ### Currency Formatting
@@ -210,8 +239,11 @@ Input bill month, due date, rate, total bill, and submeter readings for all 4 un
 ### Water Tab
 Same logic as electric, configured for MCWD water billing.
 
-### Print Preview
-Clean output with bill information, submeter readings, bill breakdown, and Unit 3–4 combined totals.
+### Print Default Preview
+Complete report with all details including Bill Information, Submeter Readings, Bill Breakdown with Solution column, and summary totals.
+
+### Print Units Preview
+Clean simplified report showing only essential unit billing information — no rates, totals, or solution formulas.
 
 ---
 
@@ -256,8 +288,11 @@ This project is open source and available under the [MIT License](LICENSE).
 **Q: What is the difference between "Grand Total" and "Total Units Bill"?**
 > A: **Grand Total** is the sum of all calculated submeter bills. **Total Units Bill** is the sum of the actual VECO and MCWD bill amounts you entered. They may differ if your rate or readings don't exactly match the provider's billing.
 
-**Q: What is "Total Current kWh / Cu.m Unit 3–4"?**
-> A: This is the **sum of the current meter readings** for Unit 3 and Unit 4, shown only in the print report for quick reference.
+**Q: What is "Total kWh / cu.m Used"?**
+> A: This is the **sum of all units' usage** (kWh for electric, cu.m for water), shown at the bottom of each bill breakdown table in the print report.
+
+**Q: What is the difference between Print Default and Print Units?**
+> A: **Print Default** shows the complete report with all details including rates, total bills, and solution formulas. **Print Units** shows a clean simplified report with only essential unit billing information — perfect for distributing to tenants.
 
 **Q: Can I add more units?**
 > A: Currently supports exactly 4 units. To add more, modify the JavaScript loops (`for (let i = 1; i <= 4; i++)`) and add corresponding HTML inputs.
