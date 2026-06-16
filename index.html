@@ -775,7 +775,7 @@
                 </div>
                 <div class="summary-card unit4">
                     <div class="icon">🏠</div>
-                    <div class="label">Unit 4 Total</div>
+                    <div class="label">Total Units Bill</div>
                     <div class="value" id="dash-unit4-total">₱0.00</div>
                 </div>
             </div>
@@ -1039,6 +1039,9 @@
             document.getElementById('print-water-due').textContent = waterDue || '---';
             document.getElementById('print-water-rate').textContent = waterRate ? '₱' + parseFloat(waterRate).toFixed(2) : '---';
             document.getElementById('print-water-total-bill').textContent = waterTotalBill ? '₱' + parseFloat(waterTotalBill).toLocaleString('en-PH', {minimumFractionDigits: 2, maximumFractionDigits: 2}) : '---';
+
+            // Also update dashboard Total Units Bill when bill inputs change
+            updateDashboard();
         }
 
 
@@ -1176,12 +1179,14 @@
             const elecTotal = electricData.total;
             const waterTotal = waterData.total;
             const grandTotal = elecTotal + waterTotal;
-            const unit4Total = (electricData.units[3] || 0) + (waterData.units[3] || 0);
+            const elecTotalBillInput = parseFloat(document.getElementById('elec-total-bill').value) || 0;
+            const waterTotalBillInput = parseFloat(document.getElementById('water-total-bill').value) || 0;
+            const totalUnitsBill = elecTotalBillInput + waterTotalBillInput;
 
             document.getElementById('dash-total-electric').textContent = formatPeso(elecTotal);
             document.getElementById('dash-total-water').textContent = formatPeso(waterTotal);
             document.getElementById('dash-grand-total').textContent = formatPeso(grandTotal);
-            document.getElementById('dash-unit4-total').textContent = formatPeso(unit4Total);
+            document.getElementById('dash-unit4-total').textContent = formatPeso(totalUnitsBill);
 
             let html = '';
             for (let i = 0; i < 4; i++) {
