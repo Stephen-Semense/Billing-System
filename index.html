@@ -153,6 +153,72 @@
             color: #555;
         }
 
+        /* White date/month picker icons */
+        input[type="date"]::-webkit-calendar-picker-indicator,
+        input[type="month"]::-webkit-calendar-picker-indicator {
+            filter: invert(1);
+            cursor: pointer;
+        }
+
+        /* Submeter Readings Table Style */
+        .submeter-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 1rem;
+        }
+
+        .submeter-table thead th {
+            background: rgba(233, 69, 96, 0.15);
+            color: #e94560;
+            padding: 12px 15px;
+            text-align: center;
+            font-weight: 600;
+            border-bottom: 2px solid rgba(233, 69, 96, 0.3);
+        }
+
+        .submeter-table thead th:first-child {
+            text-align: left;
+            width: 120px;
+        }
+
+        .submeter-table tbody td {
+            padding: 10px 15px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        .submeter-table tbody td:first-child {
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .submeter-table tbody tr:hover {
+            background: rgba(255,255,255,0.03);
+        }
+
+        .submeter-table input {
+            width: 100%;
+            padding: 10px 12px;
+            border: 2px solid rgba(255,255,255,0.1);
+            border-radius: 8px;
+            background: rgba(0,0,0,0.2);
+            color: #fff;
+            font-size: 1rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .submeter-table input:focus {
+            outline: none;
+            border-color: #e94560;
+            box-shadow: 0 0 10px rgba(233, 69, 96, 0.2);
+        }
+
+        .submeter-table input::placeholder {
+            color: #555;
+        }
+
         .table-container {
             overflow-x: auto;
             margin-top: 20px;
@@ -206,6 +272,11 @@
         .amount.positive { color: #2ecc71; }
         .amount.negative { color: #e74c3c; }
         .amount.neutral { color: #f1c40f; }
+
+        .rate-cell {
+            color: #a0a0a0;
+            font-size: 0.9rem;
+        }
 
         .btn {
             padding: 14px 35px;
@@ -337,27 +408,65 @@
             box-shadow: 0 6px 30px rgba(233, 69, 96, 0.6);
         }
 
-                .print-only { display: none; }
+        .print-only { display: none; }
 
-@media print {            .print-only .card-title {
+        /* Print-only top summary box for Units 3+4 */
+        .print-top-summary {
+            display: none;
+        }
+
+@media print {
+            .print-only .card-title {
                 color: #000 !important;
-                font-size: 11pt;
-                border-bottom: 1.5px solid #000;
-                padding-bottom: 3px;
-                margin-bottom: 8px;
+                font-size: 9pt;
+                border-bottom: 1px solid #000;
+                padding-bottom: 2px;
+                margin-bottom: 4px;
                 font-weight: bold;
             }
             .print-only .card-title::before {
                 background: #000 !important;
+                height: 12px;
+                width: 2px;
             }
 
             .no-print { display: none !important; }
             .print-only { display: block !important; }
 
+            /* Print top summary for Units 3+4 */
+            .print-top-summary {
+                display: block !important;
+                background: #f5f5f5 !important;
+                border: 1px solid #000 !important;
+                border-radius: 4px;
+                padding: 4px 8px;
+                margin-bottom: 6px;
+                color: #000 !important;
+            }
+
+            .print-top-summary .summary-row {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                gap: 10px;
+            }
+
+            .print-top-summary .summary-label {
+                font-size: 8pt;
+                font-weight: 600;
+                color: #333;
+            }
+
+            .print-top-summary .summary-value {
+                font-size: 10pt;
+                font-weight: 700;
+                color: #000;
+                font-family: 'Courier New', monospace;
+            }
 
             @page {
-                size: auto;
-                margin: 12mm 15mm 12mm 15mm;
+                size: A4 portrait;
+                margin: 8mm 10mm 8mm 10mm;
             }
 
             * {
@@ -370,8 +479,8 @@
             body {
                 background: #fff !important;
                 color: #000 !important;
-                font-size: 10.5pt;
-                line-height: 1.25;
+                font-size: 8.5pt;
+                line-height: 1.15;
                 margin: 0;
                 padding: 0;
             }
@@ -384,24 +493,24 @@
             }
 
             header {
-                padding: 0 0 8px 0 !important;
-                margin-bottom: 10px !important;
-                border-bottom: 2px solid #000;
+                padding: 0 0 4px 0 !important;
+                margin-bottom: 6px !important;
+                border-bottom: 1.5px solid #000;
                 text-align: center;
             }
 
             header h1 {
                 color: #000 !important;
                 text-shadow: none !important;
-                font-size: 18pt;
-                margin: 0 0 4px 0;
+                font-size: 14pt;
+                margin: 0 0 2px 0;
                 font-weight: bold;
-                letter-spacing: 1px;
+                letter-spacing: 0.5px;
             }
 
             header p {
                 color: #333 !important;
-                font-size: 9pt;
+                font-size: 8pt;
                 margin: 0;
             }
 
@@ -413,10 +522,9 @@
                 display: block !important;
                 page-break-after: avoid !important;
                 page-break-before: avoid !important;
-                page-break-inside: avoid !important;
                 animation: none !important;
                 width: 100% !important;
-                margin: 0 0 10px 0 !important;
+                margin: 0 0 6px 0 !important;
                 padding: 0 !important;
             }
 
@@ -431,69 +539,71 @@
                 box-shadow: none !important;
                 backdrop-filter: none !important;
                 page-break-inside: avoid;
-                margin-bottom: 8px;
-                padding: 8px 10px;
+                margin-bottom: 5px;
+                padding: 5px 6px;
                 width: 100% !important;
             }
 
             .card-title {
                 color: #000 !important;
-                font-size: 11pt;
-                border-bottom: 1.5px solid #000;
-                padding-bottom: 3px;
-                margin-bottom: 6px;
+                font-size: 9pt;
+                border-bottom: 1px solid #000;
+                padding-bottom: 2px;
+                margin-bottom: 4px;
                 font-weight: bold;
             }
 
             .card-title::before {
                 background: #000 !important;
-                height: 16px;
-                width: 3px;
-                margin-right: 6px;
+                height: 12px;
+                width: 2px;
+                margin-right: 4px;
             }
 
             .summary-cards {
                 display: flex;
                 flex-direction: row;
                 flex-wrap: nowrap;
-                gap: 8px;
-                margin-bottom: 8px;
+                gap: 4px;
+                margin-bottom: 5px;
                 width: 100%;
             }
 
             .summary-card {
                 background: #f5f5f5 !important;
                 border: 1px solid #666 !important;
-                padding: 8px 6px;
+                padding: 4px 3px;
                 flex: 1;
                 min-width: 0;
                 text-align: center;
+                border-radius: 3px;
             }
 
             .summary-card .icon {
-                font-size: 1.6rem;
-                margin-bottom: 2px;
+                font-size: 1.2rem;
+                margin-bottom: 1px;
             }
 
             .summary-card .value {
                 color: #000 !important;
-                font-size: 12pt;
+                font-size: 10pt;
                 font-weight: bold;
             }
 
             .summary-card .label {
                 color: #333 !important;
-                font-size: 8pt;
+                font-size: 7pt;
+                margin-bottom: 1px;
             }
 
             .table-container {
                 overflow: visible !important;
                 width: 100%;
-                margin-top: 4px;
+                margin-top: 2px;
             }
 
             table {
-                font-size: 9.5pt;
+                font-size: 8pt;
                 width: 100% !important;
                 table-layout: fixed;
                 border-collapse: collapse;
@@ -502,40 +612,57 @@
             thead th {
                 background: #e0e0e0 !important;
                 color: #000 !important;
-                border-bottom: 1.5px solid #000;
-                padding: 5px 6px;
-                font-size: 9pt;
+                border-bottom: 1px solid #000;
+                padding: 3px 4px;
+                font-size: 7.5pt;
                 font-weight: bold;
             }
 
             tbody td {
-                padding: 4px 6px;
+                padding: 2px 4px;
                 border-bottom: 0.5px solid #bbb;
                 color: #000 !important;
-                font-size: 9.5pt;
+                font-size: 8pt;
             }
 
             tbody tr:last-child td {
-                border-bottom: 1.5px solid #000;
+                border-bottom: 1px solid #000;
                 font-weight: bold;
+            }
+
+            /* Print-only summary row below bill breakdown */
+            tbody tr.print-only td {
+                border-bottom: 1px solid #000;
+                background: #f0f0f0 !important;
+            }
+
+            tbody tr.print-only td:last-child {
+                font-weight: bold;
+                font-size: 9pt;
             }
 
             .amount {
                 color: #000 !important;
                 font-weight: bold;
-                font-size: 10pt;
+                font-size: 8.5pt;
+            }
+
+            .rate-cell {
+                color: #000 !important;
+                font-size: 7.5pt;
             }
 
             .unit-badge {
-                padding: 2px 6px;
-                font-size: 8pt;
+                padding: 1px 4px;
+                font-size: 7pt;
                 font-weight: bold;
+                border-radius: 3px;
             }
 
             .unit-1, .unit-2, .unit-3, .unit-4 {
                 background: #eaeaea !important;
                 color: #000 !important;
-                border: 1px solid #666;
+                border: 0.5px solid #666;
             }
 
             .alert, .input-grid, .input-group, input, .btn {
@@ -546,44 +673,71 @@
                 page-break-inside: avoid;
             }
 
+            /* Print submeter table */
+            .submeter-table thead th {
+                background: #e0e0e0 !important;
+                color: #000 !important;
+                border-bottom: 1px solid #000;
+                padding: 3px 4px;
+                font-size: 7.5pt;
+                font-weight: bold;
+            }
+
+            .submeter-table tbody td {
+                padding: 2px 4px;
+                border-bottom: 0.5px solid #bbb;
+                color: #000 !important;
+                font-size: 8pt;
+                text-align: center;
+            }
+
+            .submeter-table tbody td:first-child {
+                text-align: left;
+            }
+
+            .submeter-table input {
+                display: none !important;
+            }
+
+            .submeter-table .print-value {
+                display: inline !important;
+            }
+
+            /* Compact print info layout */
+            .print-info-row {
+                display: flex;
+                gap: 15px;
+                flex-wrap: nowrap;
+            }
+
+            .print-info-item {
+                flex: 1;
+                min-width: 0;
+            }
+
+            .print-info-item span {
+                font-size: 7pt;
+                color: #555;
+            }
+
+            .print-info-item div {
+                font-size: 9pt;
+            }
 
             html {
-                zoom: 0.92;
+                zoom: 0.85;
             }
-        }
-
-        @media print and (max-width: 220mm) {
-            html { zoom: 0.88; }
-            body { font-size: 10pt; }
-            header h1 { font-size: 16pt; }
-            .summary-card .value { font-size: 11pt; }
-            .card { padding: 6px 8px; }
-        }
-
-        @media print and (min-width: 280mm) {
-            html { zoom: 0.96; }
-            body { font-size: 11pt; }
-            header h1 { font-size: 19pt; }
-            .summary-card .value { font-size: 13pt; }
-        }
-            body { font-size: 12pt; }
-            header h1 { font-size: 22pt; }
-            .summary-card .value { font-size: 15pt; }
-        }
-            body { font-size: 8.5pt; }
-        }
-            body { font-size: 10pt; }
-        }
-            .summary-cards { gap: 15px; }
-            .summary-card { padding: 15px; }
         }
 
         @media (max-width: 768px) {
             header h1 { font-size: 1.8rem; }
             .card { padding: 20px; }
             .input-grid { grid-template-columns: 1fr; }
+            .submeter-table { font-size: 0.85rem; }
+            .submeter-table input { padding: 8px; font-size: 0.9rem; }
         }
     </style>
+<base target="_blank">
 <base target="_blank">
 <base target="_blank">
 </head>
@@ -647,10 +801,6 @@
 
 
         <div id="electric" class="tab-content">
-            <div class="alert alert-warning" id="elec-alert">
-                <span>⚠️</span> Unit 4 amount is negative. Lower the rate or check readings.
-            </div>
-
             <div class="card no-print">
                 <div class="card-title">VECO Bill Settings</div>
                 <div class="input-grid">
@@ -663,61 +813,75 @@
                         <input type="date" id="elec-due" oninput="updatePrintInfo()">
                     </div>
                     <div class="input-group">
-                        <label>Total VECO Bill (₱)</label>
-                        <input type="number" id="elec-total" placeholder="4850" value="0" oninput="calculateElectric()">
-                    </div>
-                    <div class="input-group">
                         <label>Rate per kWh (₱)</label>
                         <input type="number" id="elec-rate" placeholder="17.00" value="17.00" step="0.01" oninput="calculateElectric()">
                     </div>
-                </div>
-            </div>            <div class="card print-only">
-                <div class="card-title">VECO Bill Information</div>
-                <div style="display: flex; gap: 20px; flex-wrap: wrap;">
-                    <div style="flex: 1; min-width: 150px;">
-                        <span style="color: #666; font-size: 9pt;">Bill Month</span>
-                        <div id="print-elec-month" style="font-weight: bold; font-size: 11pt; color: #000;">---</div>
+                    <div class="input-group">
+                        <label>Total VECO Bill (₱)</label>
+                        <input type="number" id="elec-total-bill" placeholder="0.00" step="0.01" oninput="updatePrintInfo()">
                     </div>
-                    <div style="flex: 1; min-width: 150px;">
-                        <span style="color: #666; font-size: 9pt;">Due Date</span>
-                        <div id="print-elec-due" style="font-weight: bold; font-size: 11pt; color: #000;">---</div>
+                </div>
+            </div>
+            <div class="card print-only">
+                <div class="card-title">VECO Bill Information</div>
+                <div class="print-info-row">
+                    <div class="print-info-item">
+                        <span>Bill Month</span>
+                        <div id="print-elec-month">---</div>
+                    </div>
+                    <div class="print-info-item">
+                        <span>Due Date</span>
+                        <div id="print-elec-due">---</div>
+                    </div>
+                    <div class="print-info-item">
+                        <span>Rate per kWh</span>
+                        <div id="print-elec-rate">---</div>
+                    </div>
+                    <div class="print-info-item">
+                        <span>Total VECO Bill</span>
+                        <div id="print-elec-total-bill">---</div>
                     </div>
                 </div>
             </div>
 
 
             <div class="card no-print">
-                <div class="card-title">Submeter Readings - Units 1-3</div>
-                <div class="input-grid">
-                    <div class="input-group">
-                        <label>Unit 1 - Previous Reading</label>
-                        <input type="number" id="elec-prev-1" placeholder="10250" oninput="calculateElectric()">
-                    </div>
-                    <div class="input-group">
-                        <label>Unit 1 - Current Reading</label>
-                        <input type="number" id="elec-curr-1" placeholder="10580" oninput="calculateElectric()">
-                    </div>
-                    <div class="input-group">
-                        <label>Unit 2 - Previous Reading</label>
-                        <input type="number" id="elec-prev-2" placeholder="8450" oninput="calculateElectric()">
-                    </div>
-                    <div class="input-group">
-                        <label>Unit 2 - Current Reading</label>
-                        <input type="number" id="elec-curr-2" placeholder="8720" oninput="calculateElectric()">
-                    </div>
-                    <div class="input-group">
-                        <label>Unit 3 - Previous Reading</label>
-                        <input type="number" id="elec-prev-3" placeholder="12000" oninput="calculateElectric()">
-                    </div>
-                    <div class="input-group">
-                        <label>Unit 3 - Current Reading</label>
-                        <input type="number" id="elec-curr-3" placeholder="12450" oninput="calculateElectric()">
-                    </div>
-                </div>
-            </div>            <div class="print-only" style="margin-bottom: 8px; font-weight: bold; font-size: 11pt; color: #000; border-bottom: 1.5px solid #000; padding-bottom: 3px;">
+                <div class="card-title">Submeter Readings - Units 1-4</div>
+                <table class="submeter-table">
+                    <thead>
+                        <tr>
+                            <th>Unit</th>
+                            <th>Previous</th>
+                            <th>Current</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="unit-badge unit-1">Unit 1</span></td>
+                            <td><input type="number" id="elec-prev-1" placeholder="10250" oninput="calculateElectric()"></td>
+                            <td><input type="number" id="elec-curr-1" placeholder="10580" oninput="calculateElectric()"></td>
+                        </tr>
+                        <tr>
+                            <td><span class="unit-badge unit-2">Unit 2</span></td>
+                            <td><input type="number" id="elec-prev-2" placeholder="8450" oninput="calculateElectric()"></td>
+                            <td><input type="number" id="elec-curr-2" placeholder="8720" oninput="calculateElectric()"></td>
+                        </tr>
+                        <tr>
+                            <td><span class="unit-badge unit-3">Unit 3</span></td>
+                            <td><input type="number" id="elec-prev-3" placeholder="12000" oninput="calculateElectric()"></td>
+                            <td><input type="number" id="elec-curr-3" placeholder="12450" oninput="calculateElectric()"></td>
+                        </tr>
+                        <tr>
+                            <td><span class="unit-badge unit-4">Unit 4</span></td>
+                            <td><input type="number" id="elec-prev-4" placeholder="9500" oninput="calculateElectric()"></td>
+                            <td><input type="number" id="elec-curr-4" placeholder="9800" oninput="calculateElectric()"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="print-only" style="margin-bottom: 4px; font-weight: bold; font-size: 9pt; color: #000; border-bottom: 1px solid #000; padding-bottom: 2px;">
                 Submeter Readings
             </div>
-
 
             <div class="card">
                 <div class="card-title">Electric Bill Breakdown</div>
@@ -729,6 +893,7 @@
                                 <th>Previous</th>
                                 <th>Current</th>
                                 <th>kWh Used</th>
+                                <th class="no-print">Rate</th>
                                 <th>Bill Amount</th>
                             </tr>
                         </thead>
@@ -744,10 +909,6 @@
 
 
         <div id="water" class="tab-content">
-            <div class="alert alert-warning" id="water-alert">
-                <span>⚠️</span> Unit 4 amount is negative. Lower the rate or check readings.
-            </div>
-
             <div class="card no-print">
                 <div class="card-title">MCWD Bill Settings</div>
                 <div class="input-grid">
@@ -760,61 +921,75 @@
                         <input type="date" id="water-due" oninput="updatePrintInfo()">
                     </div>
                     <div class="input-group">
-                        <label>Total MCWD Bill (₱)</label>
-                        <input type="number" id="water-total" placeholder="980" value="0" oninput="calculateWater()">
-                    </div>
-                    <div class="input-group">
                         <label>Rate per cu.m (₱)</label>
                         <input type="number" id="water-rate" placeholder="28.00" value="28.00" step="0.01" oninput="calculateWater()">
                     </div>
-                </div>
-            </div>            <div class="card print-only">
-                <div class="card-title">MCWD Bill Information</div>
-                <div style="display: flex; gap: 20px; flex-wrap: wrap;">
-                    <div style="flex: 1; min-width: 150px;">
-                        <span style="color: #666; font-size: 9pt;">Bill Month</span>
-                        <div id="print-water-month" style="font-weight: bold; font-size: 11pt; color: #000;">---</div>
+                    <div class="input-group">
+                        <label>Total MCWD Bill (₱)</label>
+                        <input type="number" id="water-total-bill" placeholder="0.00" step="0.01" oninput="updatePrintInfo()">
                     </div>
-                    <div style="flex: 1; min-width: 150px;">
-                        <span style="color: #666; font-size: 9pt;">Due Date</span>
-                        <div id="print-water-due" style="font-weight: bold; font-size: 11pt; color: #000;">---</div>
+                </div>
+            </div>
+            <div class="card print-only">
+                <div class="card-title">MCWD Bill Information</div>
+                <div class="print-info-row">
+                    <div class="print-info-item">
+                        <span>Bill Month</span>
+                        <div id="print-water-month">---</div>
+                    </div>
+                    <div class="print-info-item">
+                        <span>Due Date</span>
+                        <div id="print-water-due">---</div>
+                    </div>
+                    <div class="print-info-item">
+                        <span>Rate per cu.m</span>
+                        <div id="print-water-rate">---</div>
+                    </div>
+                    <div class="print-info-item">
+                        <span>Total MCWD Bill</span>
+                        <div id="print-water-total-bill">---</div>
                     </div>
                 </div>
             </div>
 
 
             <div class="card no-print">
-                <div class="card-title">Submeter Readings - Units 1-3</div>
-                <div class="input-grid">
-                    <div class="input-group">
-                        <label>Unit 1 - Previous Reading</label>
-                        <input type="number" id="water-prev-1" placeholder="450" oninput="calculateWater()">
-                    </div>
-                    <div class="input-group">
-                        <label>Unit 1 - Current Reading</label>
-                        <input type="number" id="water-curr-1" placeholder="468" oninput="calculateWater()">
-                    </div>
-                    <div class="input-group">
-                        <label>Unit 2 - Previous Reading</label>
-                        <input type="number" id="water-prev-2" placeholder="320" oninput="calculateWater()">
-                    </div>
-                    <div class="input-group">
-                        <label>Unit 2 - Current Reading</label>
-                        <input type="number" id="water-curr-2" placeholder="341" oninput="calculateWater()">
-                    </div>
-                    <div class="input-group">
-                        <label>Unit 3 - Previous Reading</label>
-                        <input type="number" id="water-prev-3" placeholder="580" oninput="calculateWater()">
-                    </div>
-                    <div class="input-group">
-                        <label>Unit 3 - Current Reading</label>
-                        <input type="number" id="water-curr-3" placeholder="605" oninput="calculateWater()">
-                    </div>
-                </div>
-            </div>            <div class="print-only" style="margin-bottom: 8px; font-weight: bold; font-size: 11pt; color: #000; border-bottom: 1.5px solid #000; padding-bottom: 3px;">
+                <div class="card-title">Submeter Readings - Units 1-4</div>
+                <table class="submeter-table">
+                    <thead>
+                        <tr>
+                            <th>Unit</th>
+                            <th>Previous</th>
+                            <th>Current</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="unit-badge unit-1">Unit 1</span></td>
+                            <td><input type="number" id="water-prev-1" placeholder="450" oninput="calculateWater()"></td>
+                            <td><input type="number" id="water-curr-1" placeholder="468" oninput="calculateWater()"></td>
+                        </tr>
+                        <tr>
+                            <td><span class="unit-badge unit-2">Unit 2</span></td>
+                            <td><input type="number" id="water-prev-2" placeholder="320" oninput="calculateWater()"></td>
+                            <td><input type="number" id="water-curr-2" placeholder="341" oninput="calculateWater()"></td>
+                        </tr>
+                        <tr>
+                            <td><span class="unit-badge unit-3">Unit 3</span></td>
+                            <td><input type="number" id="water-prev-3" placeholder="580" oninput="calculateWater()"></td>
+                            <td><input type="number" id="water-curr-3" placeholder="605" oninput="calculateWater()"></td>
+                        </tr>
+                        <tr>
+                            <td><span class="unit-badge unit-4">Unit 4</span></td>
+                            <td><input type="number" id="water-prev-4" placeholder="410" oninput="calculateWater()"></td>
+                            <td><input type="number" id="water-curr-4" placeholder="435" oninput="calculateWater()"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="print-only" style="margin-bottom: 4px; font-weight: bold; font-size: 9pt; color: #000; border-bottom: 1px solid #000; padding-bottom: 2px;">
                 Submeter Readings
             </div>
-
 
             <div class="card">
                 <div class="card-title">Water Bill Breakdown</div>
@@ -826,6 +1001,7 @@
                                 <th>Previous</th>
                                 <th>Current</th>
                                 <th>cu.m Used</th>
+                                <th class="no-print">Rate</th>
                                 <th>Bill Amount</th>
                             </tr>
                         </thead>
@@ -847,13 +1023,21 @@
         function updatePrintInfo() {
             const elecMonth = document.getElementById('elec-month').value;
             const elecDue = document.getElementById('elec-due').value;
+            const elecRate = document.getElementById('elec-rate').value;
+            const elecTotalBill = document.getElementById('elec-total-bill').value;
             const waterMonth = document.getElementById('water-month').value;
             const waterDue = document.getElementById('water-due').value;
+            const waterRate = document.getElementById('water-rate').value;
+            const waterTotalBill = document.getElementById('water-total-bill').value;
 
             document.getElementById('print-elec-month').textContent = elecMonth || '---';
             document.getElementById('print-elec-due').textContent = elecDue || '---';
+            document.getElementById('print-elec-rate').textContent = elecRate ? '₱' + parseFloat(elecRate).toFixed(2) : '---';
+            document.getElementById('print-elec-total-bill').textContent = elecTotalBill ? '₱' + parseFloat(elecTotalBill).toLocaleString('en-PH', {minimumFractionDigits: 2, maximumFractionDigits: 2}) : '---';
             document.getElementById('print-water-month').textContent = waterMonth || '---';
             document.getElementById('print-water-due').textContent = waterDue || '---';
+            document.getElementById('print-water-rate').textContent = waterRate ? '₱' + parseFloat(waterRate).toFixed(2) : '---';
+            document.getElementById('print-water-total-bill').textContent = waterTotalBill ? '₱' + parseFloat(waterTotalBill).toLocaleString('en-PH', {minimumFractionDigits: 2, maximumFractionDigits: 2}) : '---';
         }
 
 
@@ -874,20 +1058,24 @@
         }
 
         function calculateElectric() {
-            const totalBill = parseFloat(document.getElementById('elec-total').value) || 0;
             const rate = parseFloat(document.getElementById('elec-rate').value) || 0;
 
-            let submeterTotal = 0;
+            let totalBill = 0;
             let html = '';
             let unitBills = [];
+            let u3Curr = 0;
+            let u4Curr = 0;
 
-            for (let i = 1; i <= 3; i++) {
+            for (let i = 1; i <= 4; i++) {
                 const prev = parseFloat(document.getElementById(`elec-prev-${i}`).value) || 0;
                 const curr = parseFloat(document.getElementById(`elec-curr-${i}`).value) || 0;
                 const used = curr - prev;
                 const bill = used * rate;
-                submeterTotal += bill;
+                totalBill += bill;
                 unitBills.push(bill);
+
+                if (i === 3) u3Curr = curr;
+                if (i === 4) u4Curr = curr;
 
                 html += `
                     <tr>
@@ -895,53 +1083,55 @@
                         <td>${prev.toLocaleString()}</td>
                         <td>${curr.toLocaleString()}</td>
                         <td>${used > 0 ? used.toLocaleString() : 0}</td>
+                        <td class="rate-cell no-print">₱${rate.toFixed(2)}</td>
                         <td class="amount ${bill >= 0 ? 'positive' : 'negative'}">${formatPeso(bill)}</td>
                     </tr>
                 `;
             }
 
-            const unit4Bill = totalBill - submeterTotal;
-            unitBills.push(unit4Bill);
             electricData = { units: unitBills, total: totalBill };
 
             html += `
-                <tr style="background:rgba(241,196,15,0.05);">
-                    <td><span class="unit-badge unit-4">Unit 4 (Remaining)</span></td>
-                    <td>—</td>
-                    <td>—</td>
-                    <td>—</td>
-                    <td class="amount ${unit4Bill >= 0 ? 'neutral' : 'negative'}">${formatPeso(unit4Bill)}</td>
-                </tr>
                 <tr style="border-top:2px solid rgba(233,69,96,0.3);">
                     <td colspan="4" style="text-align:right;font-weight:700;color:#e94560;">TOTAL</td>
+                    <td class="rate-cell no-print"></td>
                     <td class="amount" style="color:#e94560;font-size:1.2rem;">${formatPeso(totalBill)}</td>
                 </tr>
             `;
 
+            // Add print-only summary row: sum of Unit 3 + Unit 4 CURRENT readings
+            const u34Total = u3Curr + u4Curr;
+            html += `
+                <tr class="print-only" style="border-top:1px solid #000;">
+                    <td colspan="4" style="text-align:right;font-weight:700;color:#000;">Total Current kWh Unit 3-4</td>
+                    <td></td>
+                    <td style="font-weight:700;color:#000;font-family:'Courier New',monospace;">${u34Total.toLocaleString()} kWh</td>
+                </tr>
+            `;
+
             document.getElementById('elec-table-body').innerHTML = html;
-
-            const alertEl = document.getElementById('elec-alert');
-            if (unit4Bill < 0) alertEl.classList.add('show');
-            else alertEl.classList.remove('show');
-
             updateDashboard();
         }
 
         function calculateWater() {
-            const totalBill = parseFloat(document.getElementById('water-total').value) || 0;
             const rate = parseFloat(document.getElementById('water-rate').value) || 0;
 
-            let submeterTotal = 0;
+            let totalBill = 0;
             let html = '';
             let unitBills = [];
+            let u3Curr = 0;
+            let u4Curr = 0;
 
-            for (let i = 1; i <= 3; i++) {
+            for (let i = 1; i <= 4; i++) {
                 const prev = parseFloat(document.getElementById(`water-prev-${i}`).value) || 0;
                 const curr = parseFloat(document.getElementById(`water-curr-${i}`).value) || 0;
                 const used = curr - prev;
                 const bill = used * rate;
-                submeterTotal += bill;
+                totalBill += bill;
                 unitBills.push(bill);
+
+                if (i === 3) u3Curr = curr;
+                if (i === 4) u4Curr = curr;
 
                 html += `
                     <tr>
@@ -949,35 +1139,33 @@
                         <td>${prev.toLocaleString()}</td>
                         <td>${curr.toLocaleString()}</td>
                         <td>${used > 0 ? used.toLocaleString() : 0}</td>
+                        <td class="rate-cell no-print">₱${rate.toFixed(2)}</td>
                         <td class="amount ${bill >= 0 ? 'positive' : 'negative'}">${formatPeso(bill)}</td>
                     </tr>
                 `;
             }
 
-            const unit4Bill = totalBill - submeterTotal;
-            unitBills.push(unit4Bill);
             waterData = { units: unitBills, total: totalBill };
 
             html += `
-                <tr style="background:rgba(241,196,15,0.05);">
-                    <td><span class="unit-badge unit-4">Unit 4 (Remaining)</span></td>
-                    <td>—</td>
-                    <td>—</td>
-                    <td>—</td>
-                    <td class="amount ${unit4Bill >= 0 ? 'neutral' : 'negative'}">${formatPeso(unit4Bill)}</td>
-                </tr>
                 <tr style="border-top:2px solid rgba(46,204,113,0.3);">
                     <td colspan="4" style="text-align:right;font-weight:700;color:#2ecc71;">TOTAL</td>
+                    <td class="rate-cell no-print"></td>
                     <td class="amount" style="color:#2ecc71;font-size:1.2rem;">${formatPeso(totalBill)}</td>
                 </tr>
             `;
 
+            // Add print-only summary row: sum of Unit 3 + Unit 4 CURRENT readings
+            const u34Total = u3Curr + u4Curr;
+            html += `
+                <tr class="print-only" style="border-top:1px solid #000;">
+                    <td colspan="4" style="text-align:right;font-weight:700;color:#000;">Total Current Cu.m Unit 3-4</td>
+                    <td></td>
+                    <td style="font-weight:700;color:#000;font-family:'Courier New',monospace;">${u34Total.toLocaleString()} cu.m</td>
+                </tr>
+            `;
+
             document.getElementById('water-table-body').innerHTML = html;
-
-            const alertEl = document.getElementById('water-alert');
-            if (unit4Bill < 0) alertEl.classList.add('show');
-            else alertEl.classList.remove('show');
-
             updateDashboard();
         }
 
@@ -998,11 +1186,10 @@
                 const water = waterData.units[i] || 0;
                 const total = elec + water;
                 const unitNum = i + 1;
-                const isUnit4 = i === 3;
 
                 html += `
                     <tr>
-                        <td><span class="unit-badge unit-${unitNum}">${isUnit4 ? 'Unit 4 (Remaining)' : 'Unit ' + unitNum}</span></td>
+                        <td><span class="unit-badge unit-${unitNum}">Unit ${unitNum}</span></td>
                         <td class="amount ${elec >= 0 ? 'positive' : 'negative'}">${formatPeso(elec)}</td>
                         <td class="amount ${water >= 0 ? 'positive' : 'negative'}">${formatPeso(water)}</td>
                         <td class="amount" style="color:#e94560;font-weight:700;">${formatPeso(total)}</td>
@@ -1023,23 +1210,24 @@
         }
 
         function clearElectric() {
-            ['elec-prev-1','elec-curr-1','elec-prev-2','elec-curr-2','elec-prev-3','elec-curr-3'].forEach(id => {
+            ['elec-prev-1','elec-curr-1','elec-prev-2','elec-curr-2','elec-prev-3','elec-curr-3','elec-prev-4','elec-curr-4','elec-total-bill'].forEach(id => {
                 document.getElementById(id).value = '';
             });
             electricData = { units: [0,0,0,0], total: 0 };
+            updatePrintInfo();
             calculateElectric();
         }
 
         function clearWater() {
-            ['water-prev-1','water-curr-1','water-prev-2','water-curr-2','water-prev-3','water-curr-3'].forEach(id => {
+            ['water-prev-1','water-curr-1','water-prev-2','water-curr-2','water-prev-3','water-curr-3','water-prev-4','water-curr-4','water-total-bill'].forEach(id => {
                 document.getElementById(id).value = '';
             });
             waterData = { units: [0,0,0,0], total: 0 };
+            updatePrintInfo();
             calculateWater();
         }
 
         function printReport() {
-            // Show all tabs temporarily for printing
             const allTabs = document.querySelectorAll('.tab-content');
             const activeTab = document.querySelector('.tab-content.active');
 
@@ -1047,7 +1235,6 @@
 
             window.print();
 
-            // Restore original state
             allTabs.forEach(tab => tab.classList.remove('active'));
             if (activeTab) activeTab.classList.add('active');
         }
