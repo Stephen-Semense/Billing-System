@@ -153,14 +153,12 @@
             color: #555;
         }
 
-        /* White date/month picker icons */
         input[type="date"]::-webkit-calendar-picker-indicator,
         input[type="month"]::-webkit-calendar-picker-indicator {
             filter: invert(1);
             cursor: pointer;
         }
 
-        /* Submeter Readings Table Style */
         .submeter-table {
             width: 100%;
             border-collapse: collapse;
@@ -386,7 +384,6 @@
             color: #e74c3c;
         }
 
-        /* Print Controls */
         .print-controls {
             position: fixed;
             bottom: 30px;
@@ -436,12 +433,7 @@
 
         .print-only { display: none; }
 
-        /* Print-only top summary box for Units 3+4 */
-        .print-top-summary {
-            display: none;
-        }
-
-@media print {
+        @media print {
             .print-only .card-title {
                 color: #000 !important;
                 font-size: 9pt;
@@ -600,30 +592,10 @@
             table {
                 font-size: 8pt;
                 width: 100% !important;
-                table-layout: fixed;
                 border-collapse: collapse;
             }
 
-            /* Solution column in print */
-            td.print-only, th.print-only {
-                display: table-cell !important;
-                border-bottom: 0.5px solid #bbb;
-                padding: 2px 4px;
-                font-size: 7.5pt;
-                color: #000 !important;
-            }
 
-            thead th.print-only {
-                background: #e0e0e0 !important;
-                color: #000 !important;
-                border-bottom: 1px solid #000;
-                font-size: 7pt;
-                font-weight: bold;
-            }
-
-            tbody tr:last-child td.print-only {
-                border-bottom: 1px solid #000;
-            }
 
             thead th {
                 background: #e0e0e0 !important;
@@ -641,21 +613,10 @@
                 font-size: 8pt;
             }
 
-            tbody tr:last-child td {
+            /* tbody tr:last-child td {
                 border-bottom: 1px solid #000;
                 font-weight: bold;
-            }
-
-            /* Print-only summary row below bill breakdown */
-            tbody tr.print-only td {
-                border-bottom: 1px solid #000;
-                background: #f0f0f0 !important;
-            }
-
-            tbody tr.print-only td:last-child {
-                font-weight: bold;
-                font-size: 9pt;
-            }
+            } */
 
             .amount {
                 color: #000 !important;
@@ -689,7 +650,17 @@
                 page-break-inside: avoid;
             }
 
-            /* Print submeter table */
+            /* Ensure table rows stay together */
+            tbody {
+                page-break-inside: avoid;
+            }
+
+            /* Ensure consistent vertical alignment */
+            table tbody td,
+            table tbody th {
+                vertical-align: middle;
+            }
+
             .submeter-table thead th {
                 background: #e0e0e0 !important;
                 color: #000 !important;
@@ -715,11 +686,32 @@
                 display: none !important;
             }
 
-            .submeter-table .print-value {
-                display: inline !important;
+            .actions {
+                display: none !important;
             }
 
-            /* Compact print info layout */
+
+
+            th.print-only {
+                background: #e0e0e0 !important;
+                border-bottom: 1px solid #000;
+                font-weight: bold;
+                text-align: center;
+            }
+
+
+
+
+
+            table tbody tr:last-child td {
+                border-bottom: 1px solid #000;
+            }
+
+            table tbody tr:last-child th,
+            table tbody tr:last-child td.print-only {
+                border-bottom: 1px solid #000;
+            }
+
             .print-info-row {
                 display: flex;
                 gap: 15px;
@@ -745,29 +737,33 @@
             }
 
             /* ===== PRINT UNITS MODE ===== */
-            /* In Print Units mode, hide solution column */
-            body.print-units-mode td.print-only,
-            body.print-units-mode th.print-only {
+            /* Hide Grand Total and Total Units Bill summary cards */
+            body.print-units-mode .summary-card.total,
+            body.print-units-mode .summary-card.unit4 {
                 display: none !important;
             }
 
-            /* In Print Units mode, hide specific elements */
-            body.print-units-mode .print-units-hide {
+            /* Hide Total VECO Bill and Total MCWD Bill from print info */
+            body.print-units-mode .print-info-row .print-info-item:nth-child(3),
+            body.print-units-mode .print-info-row .print-info-item:nth-child(4) {
                 display: none !important;
             }
 
-            /* In Print Units mode, hide the submeter input cards (they have no-print class already) */
-            /* The print-only submeter reading display stays visible */
-
-            /* In Print Units mode, only show specific sections */
-            body.print-units-mode #home .summary-cards,
-            body.print-units-mode #home .card:has(.card-title),
-            body.print-units-mode #electric .card:has(.print-info-row),
-            body.print-units-mode #electric .card:has(#elec-table-body),
-            body.print-units-mode #water .card:has(.print-info-row),
-            body.print-units-mode #water .card:has(#water-table-body) {
-                display: block !important;
+            /* Ensure Rate column stays hidden in Print Units mode */
+            body.print-units-mode .rate-cell,
+            body.print-units-mode th.no-print,
+            body.print-units-mode td.no-print {
+                display: none !important;
+                border: none !important;
+                padding: 0 !important;
+                margin: 0 !important;
+                width: 0 !important;
+                height: 0 !important;
+                overflow: hidden !important;
             }
+
+
+
         }
 
         @media (max-width: 768px) {
@@ -776,10 +772,19 @@
             .input-grid { grid-template-columns: 1fr; }
             .submeter-table { font-size: 0.85rem; }
             .submeter-table input { padding: 8px; font-size: 0.9rem; }
+            
+            .print-controls {
+                bottom: 15px;
+                right: 15px;
+            }
+            
+            .print-btn {
+                width: 50px;
+                height: 50px;
+                font-size: 1.2rem;
+            }
         }
     </style>
-<base target="_blank">
-<base target="_blank">
 <base target="_blank">
 <base target="_blank">
 <base target="_blank">
@@ -797,7 +802,6 @@
             <button class="tab-btn" onclick="switchTab('water')">💧 MCWD</button>
         </div>
 
-
         <div id="home" class="tab-content active">
             <div class="summary-cards">
                 <div class="summary-card electric">
@@ -810,12 +814,12 @@
                     <div class="label">Total Water</div>
                     <div class="value" id="dash-total-water">₱0.00</div>
                 </div>
-                <div class="summary-card total print-units-hide">
+                <div class="summary-card total">
                     <div class="icon">💰</div>
                     <div class="label">Grand Total</div>
                     <div class="value" id="dash-grand-total">₱0.00</div>
                 </div>
-                <div class="summary-card unit4 print-units-hide">
+                <div class="summary-card unit4">
                     <div class="icon">🏠</div>
                     <div class="label">Total Units Bill</div>
                     <div class="value" id="dash-unit4-total">₱0.00</div>
@@ -841,7 +845,6 @@
                 </div>
             </div>
         </div>
-
 
         <div id="electric" class="tab-content">
             <div class="card no-print">
@@ -876,17 +879,16 @@
                         <span>Due Date</span>
                         <div id="print-elec-due">---</div>
                     </div>
-                    <div class="print-info-item print-units-hide">
+                    <div class="print-info-item">
                         <span>Rate per kWh</span>
                         <div id="print-elec-rate">---</div>
                     </div>
-                    <div class="print-info-item print-units-hide">
+                    <div class="print-info-item">
                         <span>Total VECO Bill</span>
                         <div id="print-elec-total-bill">---</div>
                     </div>
                 </div>
             </div>
-
 
             <div class="card no-print">
                 <div class="card-title">Submeter Readings - Units 1-4</div>
@@ -922,9 +924,6 @@
                     </tbody>
                 </table>
             </div>
-            <div class="print-only" style="margin-bottom: 4px; font-weight: bold; font-size: 9pt; color: #000; border-bottom: 1px solid #000; padding-bottom: 2px;">
-                Submeter Readings
-            </div>
 
             <div class="card">
                 <div class="card-title">Electric Bill Breakdown</div>
@@ -938,19 +937,18 @@
                                 <th>kWh Used</th>
                                 <th class="no-print">Rate</th>
                                 <th>Bill Amount</th>
-                                <th class="print-only">Solution</th>
                             </tr>
                         </thead>
                         <tbody id="elec-table-body"></tbody>
                     </table>
                 </div>
+                <div class="print-only elec-total-summary" style="margin-top:6px;font-size:8pt;font-weight:700;color:#000;border-bottom:1px solid #000;padding:3px 4px;display:flex;justify-content:space-between;"></div>
                 <div class="actions">
                     <button class="btn btn-secondary" onclick="clearElectric()">🗑️ Clear</button>
                     <button class="btn btn-primary" onclick="calculateElectric()">🔄 Calculate</button>
                 </div>
             </div>
         </div>
-
 
         <div id="water" class="tab-content">
             <div class="card no-print">
@@ -985,17 +983,16 @@
                         <span>Due Date</span>
                         <div id="print-water-due">---</div>
                     </div>
-                    <div class="print-info-item print-units-hide">
+                    <div class="print-info-item">
                         <span>Rate per cu.m</span>
                         <div id="print-water-rate">---</div>
                     </div>
-                    <div class="print-info-item print-units-hide">
+                    <div class="print-info-item">
                         <span>Total MCWD Bill</span>
                         <div id="print-water-total-bill">---</div>
                     </div>
                 </div>
             </div>
-
 
             <div class="card no-print">
                 <div class="card-title">Submeter Readings - Units 1-4</div>
@@ -1031,9 +1028,6 @@
                     </tbody>
                 </table>
             </div>
-            <div class="print-only" style="margin-bottom: 4px; font-weight: bold; font-size: 9pt; color: #000; border-bottom: 1px solid #000; padding-bottom: 2px;">
-                Submeter Readings
-            </div>
 
             <div class="card">
                 <div class="card-title">Water Bill Breakdown</div>
@@ -1047,12 +1041,12 @@
                                 <th>cu.m Used</th>
                                 <th class="no-print">Rate</th>
                                 <th>Bill Amount</th>
-                                <th class="print-only">Solution</th>
                             </tr>
                         </thead>
                         <tbody id="water-table-body"></tbody>
                     </table>
                 </div>
+                <div class="print-only water-total-summary" style="margin-top:6px;font-size:8pt;font-weight:700;color:#000;border-bottom:1px solid #000;padding:3px 4px;display:flex;justify-content:space-between;"></div>
                 <div class="actions">
                     <button class="btn btn-secondary" onclick="clearWater()">🗑️ Clear</button>
                     <button class="btn btn-primary" onclick="calculateWater()">🔄 Calculate</button>
@@ -1061,7 +1055,6 @@
         </div>
     </div>
 
-    <!-- Print Controls -->
     <div class="print-controls no-print">
         <select class="print-mode-select" id="printModeSelect">
             <option value="default">🖨️ Print Default</option>
@@ -1071,7 +1064,9 @@
     </div>
 
     <script>
-        // Update print info display
+        let electricData = { units: [0,0,0,0], total: 0 };
+        let waterData = { units: [0,0,0,0], total: 0 };
+
         function updatePrintInfo() {
             const elecMonth = document.getElementById('elec-month').value;
             const elecDue = document.getElementById('elec-due').value;
@@ -1082,8 +1077,8 @@
             const waterRate = document.getElementById('water-rate').value;
             const waterTotalBill = document.getElementById('water-total-bill').value;
 
-            // Convert YYYY-MM to "Month YYYY" format
             const monthNames = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+            
             let elecMonthDisplay = '---';
             if (elecMonth) {
                 const [year, month] = elecMonth.split('-');
@@ -1094,6 +1089,7 @@
                 const [year, month] = waterMonth.split('-');
                 waterMonthDisplay = monthNames[parseInt(month, 10) - 1] + ' ' + year;
             }
+
             document.getElementById('print-elec-month').textContent = elecMonthDisplay;
             document.getElementById('print-elec-due').textContent = elecDue || '---';
             document.getElementById('print-elec-rate').textContent = elecRate ? '₱' + parseFloat(elecRate).toFixed(2) : '---';
@@ -1103,14 +1099,8 @@
             document.getElementById('print-water-rate').textContent = waterRate ? '₱' + parseFloat(waterRate).toFixed(2) : '---';
             document.getElementById('print-water-total-bill').textContent = waterTotalBill ? '₱' + parseFloat(waterTotalBill).toLocaleString('en-PH', {minimumFractionDigits: 2, maximumFractionDigits: 2}) : '---';
 
-            // Also update dashboard Total Units Bill when bill inputs change
             updateDashboard();
         }
-
-
-        // Store calculated values
-        let electricData = { units: [0,0,0,0], total: 0 };
-        let waterData = { units: [0,0,0,0], total: 0 };
 
         function switchTab(tabName) {
             document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
@@ -1126,7 +1116,6 @@
 
         function calculateElectric() {
             const rate = parseFloat(document.getElementById('elec-rate').value) || 0;
-
             let totalBill = 0;
             let html = '';
             let unitBills = [];
@@ -1149,7 +1138,6 @@
                         <td>${used > 0 ? used.toLocaleString() : 0}</td>
                         <td class="rate-cell no-print">₱${rate.toFixed(2)}</td>
                         <td class="amount ${bill >= 0 ? 'positive' : 'negative'}">${formatPeso(bill)}</td>
-                        <td class="print-only" style="font-size:7.5pt;color:#000;">${used > 0 ? used.toLocaleString() : 0} kWh × ₱${rate.toFixed(2)} = ${formatPeso(bill)}</td>
                     </tr>
                 `;
             }
@@ -1158,30 +1146,21 @@
 
             html += `
                 <tr style="border-top:2px solid rgba(233,69,96,0.3);">
-                    <td colspan="4" style="text-align:right;font-weight:700;color:#e94560;">TOTAL</td>
-                    <td class="rate-cell no-print"></td>
-                    <td class="amount" style="color:#e94560;font-size:1.2rem;">${formatPeso(totalBill)}</td>
-                    <td class="print-only"></td>
+                    <td colspan="4" style="text-align:right;font-weight:700;color:#e94560;border-top:1px solid #000;border-bottom:1px solid #000;">TOTAL</td>
+                    <td class="rate-cell no-print" style="border-top:1px solid #000;border-bottom:1px solid #000;"></td>
+                    <td class="amount" style="color:#e94560;font-size:1.2rem;border-top:1px solid #000;border-bottom:1px solid #000;">${formatPeso(totalBill)}</td>
                 </tr>
-            `;
-
-            // Add print-only summary row: total kWh used by all units
-            html += `
-                <tr class="print-only" style="border-top:1px solid #000;">
-                    <td colspan="5" style="text-align:right;font-weight:700;color:#000;white-space:nowrap;">Total kWh Used</td>
-                    <td style="font-weight:700;color:#000;font-family:'Courier New',monospace;white-space:nowrap;">${totalKwhUsed.toLocaleString()} kWh</td>
-                    <td></td>
-                </tr>
+                
             `;
 
             document.getElementById('elec-table-body').innerHTML = html;
+            document.querySelector('.elec-total-summary').innerHTML = '<span>Total kWh Used</span><span>' + totalKwhUsed.toLocaleString() + ' kWh</span>';
             updateDashboard();
             updatePrintInfo();
         }
 
         function calculateWater() {
             const rate = parseFloat(document.getElementById('water-rate').value) || 0;
-
             let totalBill = 0;
             let html = '';
             let unitBills = [];
@@ -1204,7 +1183,6 @@
                         <td>${used > 0 ? used.toLocaleString() : 0}</td>
                         <td class="rate-cell no-print">₱${rate.toFixed(2)}</td>
                         <td class="amount ${bill >= 0 ? 'positive' : 'negative'}">${formatPeso(bill)}</td>
-                        <td class="print-only" style="font-size:7.5pt;color:#000;">${used > 0 ? used.toLocaleString() : 0} cu.m × ₱${rate.toFixed(2)} = ${formatPeso(bill)}</td>
                     </tr>
                 `;
             }
@@ -1213,23 +1191,15 @@
 
             html += `
                 <tr style="border-top:2px solid rgba(46,204,113,0.3);">
-                    <td colspan="4" style="text-align:right;font-weight:700;color:#2ecc71;">TOTAL</td>
-                    <td class="rate-cell no-print"></td>
-                    <td class="amount" style="color:#2ecc71;font-size:1.2rem;">${formatPeso(totalBill)}</td>
-                    <td class="print-only"></td>
+                    <td colspan="4" style="text-align:right;font-weight:700;color:#2ecc71;border-top:1px solid #000;border-bottom:1px solid #000;">TOTAL</td>
+                    <td class="rate-cell no-print" style="border-top:1px solid #000;border-bottom:1px solid #000;"></td>
+                    <td class="amount" style="color:#2ecc71;font-size:1.2rem;border-top:1px solid #000;border-bottom:1px solid #000;">${formatPeso(totalBill)}</td>
                 </tr>
-            `;
-
-            // Add print-only summary row: total cu.m used by all units
-            html += `
-                <tr class="print-only" style="border-top:1px solid #000;">
-                    <td colspan="5" style="text-align:right;font-weight:700;color:#000;white-space:nowrap;">Total cu.m Used</td>
-                    <td style="font-weight:700;color:#000;font-family:'Courier New',monospace;white-space:nowrap;">${totalCuMUsed.toLocaleString()} cu.m</td>
-                    <td></td>
-                </tr>
+                
             `;
 
             document.getElementById('water-table-body').innerHTML = html;
+            document.querySelector('.water-total-summary').innerHTML = '<span>Total cu.m Used</span><span>' + totalCuMUsed.toLocaleString() + ' cu.m</span>';
             updateDashboard();
             updatePrintInfo();
         }
@@ -1281,6 +1251,7 @@
                 document.getElementById(id).value = '';
             });
             electricData = { units: [0,0,0,0], total: 0 };
+            document.querySelector('.elec-total-summary').innerHTML = '';
             updatePrintInfo();
             calculateElectric();
         }
@@ -1290,6 +1261,7 @@
                 document.getElementById(id).value = '';
             });
             waterData = { units: [0,0,0,0], total: 0 };
+            document.querySelector('.water-total-summary').innerHTML = '';
             updatePrintInfo();
             calculateWater();
         }
@@ -1298,25 +1270,31 @@
             const mode = document.getElementById('printModeSelect').value;
             const allTabs = document.querySelectorAll('.tab-content');
             const activeTab = document.querySelector('.tab-content.active');
+            const body = document.body;
 
             if (mode === 'units') {
-                // Print Units mode
-                document.body.classList.add('print-units-mode');
-                allTabs.forEach(tab => tab.classList.add('active'));
+                body.classList.add('print-units-mode');
             } else {
-                // Print Default mode
-                document.body.classList.remove('print-units-mode');
-                allTabs.forEach(tab => tab.classList.add('active'));
+                body.classList.remove('print-units-mode');
             }
 
-            window.print();
+            allTabs.forEach(tab => tab.classList.add('active'));
 
-            allTabs.forEach(tab => tab.classList.remove('active'));
-            if (activeTab) activeTab.classList.add('active');
-            document.body.classList.remove('print-units-mode');
+            void body.offsetHeight;
+
+            requestAnimationFrame(() => {
+                setTimeout(() => {
+                    window.print();
+
+                    setTimeout(() => {
+                        allTabs.forEach(tab => tab.classList.remove('active'));
+                        if (activeTab) activeTab.classList.add('active');
+                        body.classList.remove('print-units-mode');
+                    }, 300);
+                }, 150);
+            });
         }
 
-        // Initialize
         calculateElectric();
         calculateWater();
     </script>
