@@ -89,7 +89,7 @@ python -m http.server 8000
 - Consolidated table of all 4 units with per-unit and grand totals
 
 ### 5. Print Report
-Click the floating **🖨️ Print** button (bottom-right) and choose your print mode:
+Select a print mode from the dropdown (bottom-right) and click **🖨️ Print**:
 
 ---
 
@@ -104,7 +104,6 @@ Shows the **complete report** with all details:
 - VECO & MCWD Bill Information (Month, Due Date, Rate, Total Bill)
 - Submeter Readings
 - Electric & Water Bill Breakdown tables
-- **Solution column** showing the computation formula per unit
 - Total kWh / cu.m Used summary
 
 ### Print Units
@@ -113,15 +112,14 @@ Shows a **clean, simplified report** focused on unit billing:
 - Home — Bill Summary table
 - VECO & MCWD Bill Information (Month, Due Date only)
 - Submeter Readings
-- Electric & Water Bill Breakdown tables (no Solution column)
+- Electric & Water Bill Breakdown tables
 - Total kWh / cu.m Used summary
 
 **Hidden in Print Units:**
 - ❌ Grand Total summary card
 - ❌ Total Units Bill summary card
-- ❌ Rate per kWh / cu.m
+- ❌ Rate per kWh / cu.m column
 - ❌ Total VECO / MCWD Bill amounts
-- ❌ Solution column (computation formulas)
 
 ---
 
@@ -201,7 +199,7 @@ Total Water      = Unit 1 Water + Unit 2 Water + Unit 3 Water + Unit 4 Water
 Grand Total      = Total Electric + Total Water
 Total Units Bill = Total VECO Bill (input) + Total MCWD Bill (input)
 
-// Print-only: Total kWh / cu.m Used
+// Print summaries
 TotalKwhUsed = kWh₁ + kWh₂ + kWh₃ + kWh₄
 TotalCuMUsed = cu.m₁ + cu.m₂ + cu.m₃ + cu.m₄
 ```
@@ -240,10 +238,10 @@ Input bill month, due date, rate, total bill, and submeter readings for all 4 un
 Same logic as electric, configured for MCWD water billing.
 
 ### Print Default Preview
-Complete report with all details including Bill Information, Submeter Readings, Bill Breakdown with Solution column, and summary totals.
+Complete report with all details including Bill Information, Submeter Readings, Bill Breakdown, and summary totals.
 
 ### Print Units Preview
-Clean simplified report showing only essential unit billing information — no rates, totals, or solution formulas.
+Clean simplified report showing only essential unit billing information — no rates or total bills.
 
 ---
 
@@ -289,10 +287,10 @@ This project is open source and available under the [MIT License](LICENSE).
 > A: **Grand Total** is the sum of all calculated submeter bills. **Total Units Bill** is the sum of the actual VECO and MCWD bill amounts you entered. They may differ if your rate or readings don't exactly match the provider's billing.
 
 **Q: What is "Total kWh / cu.m Used"?**
-> A: This is the **sum of all units' usage** (kWh for electric, cu.m for water), shown at the bottom of each bill breakdown table in the print report.
+> A: This is the **sum of all units' usage** (kWh for electric, cu.m for water), shown below each bill breakdown table in the print report.
 
 **Q: What is the difference between Print Default and Print Units?**
-> A: **Print Default** shows the complete report with all details including rates, total bills, and solution formulas. **Print Units** shows a clean simplified report with only essential unit billing information — perfect for distributing to tenants.
+> A: **Print Default** shows the complete report with all details including rates and total bills. **Print Units** shows a clean simplified report with only essential unit billing information — perfect for distributing to tenants.
 
 **Q: Can I add more units?**
 > A: Currently supports exactly 4 units. To add more, modify the JavaScript loops (`for (let i = 1; i <= 4; i++)`) and add corresponding HTML inputs.
