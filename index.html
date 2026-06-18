@@ -433,27 +433,14 @@
 
         .print-only { display: none; }
 
+        /* ================= PRINT STYLES - FIT ONE BOND PAPER ================= */
         @media print {
-            .print-only .card-title {
-                color: #000 !important;
-                font-size: 9pt;
-                border-bottom: 1px solid #000;
-                padding-bottom: 2px;
-                margin-bottom: 4px;
-                font-weight: bold;
-            }
-            .print-only .card-title::before {
-                background: #000 !important;
-                height: 12px;
-                width: 2px;
-            }
-
             .no-print { display: none !important; }
             .print-only { display: block !important; }
 
             @page {
                 size: A4 portrait;
-                margin: 8mm 10mm 8mm 10mm;
+                margin: 5mm 6mm 5mm 6mm;
             }
 
             * {
@@ -466,8 +453,8 @@
             body {
                 background: #fff !important;
                 color: #000 !important;
-                font-size: 8.5pt;
-                line-height: 1.15;
+                font-size: 10pt;
+                line-height: 1.2;
                 margin: 0;
                 padding: 0;
             }
@@ -489,7 +476,7 @@
             header h1 {
                 color: #000 !important;
                 text-shadow: none !important;
-                font-size: 14pt;
+                font-size: 16pt;
                 margin: 0 0 2px 0;
                 font-weight: bold;
                 letter-spacing: 0.5px;
@@ -497,7 +484,7 @@
 
             header p {
                 color: #333 !important;
-                font-size: 8pt;
+                font-size: 9pt;
                 margin: 0;
             }
 
@@ -533,7 +520,7 @@
 
             .card-title {
                 color: #000 !important;
-                font-size: 9pt;
+                font-size: 11pt;
                 border-bottom: 1px solid #000;
                 padding-bottom: 2px;
                 margin-bottom: 4px;
@@ -542,8 +529,8 @@
 
             .card-title::before {
                 background: #000 !important;
-                height: 12px;
-                width: 2px;
+                height: 14px;
+                width: 3px;
                 margin-right: 4px;
             }
 
@@ -551,7 +538,7 @@
                 display: flex;
                 flex-direction: row;
                 flex-wrap: nowrap;
-                gap: 4px;
+                gap: 5px;
                 margin-bottom: 5px;
                 width: 100%;
             }
@@ -559,7 +546,7 @@
             .summary-card {
                 background: #f5f5f5 !important;
                 border: 1px solid #666 !important;
-                padding: 4px 3px;
+                padding: 5px 3px;
                 flex: 1;
                 min-width: 0;
                 text-align: center;
@@ -567,19 +554,19 @@
             }
 
             .summary-card .icon {
-                font-size: 1.2rem;
-                margin-bottom: 1px;
+                font-size: 1.4rem;
+                margin-bottom: 2px;
             }
 
             .summary-card .value {
                 color: #000 !important;
-                font-size: 10pt;
+                font-size: 12pt;
                 font-weight: bold;
             }
 
             .summary-card .label {
                 color: #333 !important;
-                font-size: 7pt;
+                font-size: 8pt;
                 margin-bottom: 1px;
             }
 
@@ -590,48 +577,41 @@
             }
 
             table {
-                font-size: 8pt;
+                font-size: 9.5pt;
                 width: 100% !important;
                 border-collapse: collapse;
             }
-
-
 
             thead th {
                 background: #e0e0e0 !important;
                 color: #000 !important;
                 border-bottom: 1px solid #000;
-                padding: 3px 4px;
-                font-size: 7.5pt;
+                padding: 4px 5px;
+                font-size: 9pt;
                 font-weight: bold;
             }
 
             tbody td {
-                padding: 2px 4px;
+                padding: 3px 5px;
                 border-bottom: 0.5px solid #bbb;
                 color: #000 !important;
-                font-size: 8pt;
+                font-size: 9.5pt;
             }
-
-            /* tbody tr:last-child td {
-                border-bottom: 1px solid #000;
-                font-weight: bold;
-            } */
 
             .amount {
                 color: #000 !important;
                 font-weight: bold;
-                font-size: 8.5pt;
+                font-size: 10pt;
             }
 
             .rate-cell {
                 color: #000 !important;
-                font-size: 7.5pt;
+                font-size: 9pt;
             }
 
             .unit-badge {
-                padding: 1px 4px;
-                font-size: 7pt;
+                padding: 1px 5px;
+                font-size: 8.5pt;
                 font-weight: bold;
                 border-radius: 3px;
             }
@@ -650,12 +630,10 @@
                 page-break-inside: avoid;
             }
 
-            /* Ensure table rows stay together */
             tbody {
                 page-break-inside: avoid;
             }
 
-            /* Ensure consistent vertical alignment */
             table tbody td,
             table tbody th {
                 vertical-align: middle;
@@ -665,16 +643,16 @@
                 background: #e0e0e0 !important;
                 color: #000 !important;
                 border-bottom: 1px solid #000;
-                padding: 3px 4px;
-                font-size: 7.5pt;
+                padding: 4px 5px;
+                font-size: 9pt;
                 font-weight: bold;
             }
 
             .submeter-table tbody td {
-                padding: 2px 4px;
+                padding: 3px 5px;
                 border-bottom: 0.5px solid #bbb;
                 color: #000 !important;
-                font-size: 8pt;
+                font-size: 9.5pt;
                 text-align: center;
             }
 
@@ -690,18 +668,12 @@
                 display: none !important;
             }
 
-
-
             th.print-only {
                 background: #e0e0e0 !important;
                 border-bottom: 1px solid #000;
                 font-weight: bold;
                 text-align: center;
             }
-
-
-
-
 
             table tbody tr:last-child td {
                 border-bottom: 1px solid #000;
@@ -724,32 +696,25 @@
             }
 
             .print-info-item span {
-                font-size: 7pt;
+                font-size: 8pt;
                 color: #555;
             }
 
             .print-info-item div {
-                font-size: 9pt;
-            }
-
-            html {
-                zoom: 0.85;
+                font-size: 10pt;
             }
 
             /* ===== PRINT UNITS MODE ===== */
-            /* Hide Grand Total and Total Units Bill summary cards */
             body.print-units-mode .summary-card.total,
             body.print-units-mode .summary-card.unit4 {
                 display: none !important;
             }
 
-            /* Hide Total VECO Bill and Total MCWD Bill from print info */
             body.print-units-mode .print-info-row .print-info-item:nth-child(3),
             body.print-units-mode .print-info-row .print-info-item:nth-child(4) {
                 display: none !important;
             }
 
-            /* Ensure Rate column stays hidden in Print Units mode */
             body.print-units-mode .rate-cell,
             body.print-units-mode th.no-print,
             body.print-units-mode td.no-print {
@@ -761,9 +726,6 @@
                 height: 0 !important;
                 overflow: hidden !important;
             }
-
-
-
         }
 
         @media (max-width: 768px) {
@@ -772,12 +734,12 @@
             .input-grid { grid-template-columns: 1fr; }
             .submeter-table { font-size: 0.85rem; }
             .submeter-table input { padding: 8px; font-size: 0.9rem; }
-            
+
             .print-controls {
                 bottom: 15px;
                 right: 15px;
             }
-            
+
             .print-btn {
                 width: 50px;
                 height: 50px;
@@ -785,6 +747,7 @@
             }
         }
     </style>
+<base target="_blank">
 <base target="_blank">
 <base target="_blank">
 <base target="_blank">
@@ -1078,7 +1041,7 @@
             const waterTotalBill = document.getElementById('water-total-bill').value;
 
             const monthNames = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-            
+
             let elecMonthDisplay = '---';
             if (elecMonth) {
                 const [year, month] = elecMonth.split('-');
@@ -1150,7 +1113,6 @@
                     <td class="rate-cell no-print" style="border-top:1px solid #000;border-bottom:1px solid #000;"></td>
                     <td class="amount" style="color:#e94560;font-size:1.2rem;border-top:1px solid #000;border-bottom:1px solid #000;">${formatPeso(totalBill)}</td>
                 </tr>
-                
             `;
 
             document.getElementById('elec-table-body').innerHTML = html;
@@ -1195,7 +1157,6 @@
                     <td class="rate-cell no-print" style="border-top:1px solid #000;border-bottom:1px solid #000;"></td>
                     <td class="amount" style="color:#2ecc71;font-size:1.2rem;border-top:1px solid #000;border-bottom:1px solid #000;">${formatPeso(totalBill)}</td>
                 </tr>
-                
             `;
 
             document.getElementById('water-table-body').innerHTML = html;
