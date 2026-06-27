@@ -748,9 +748,6 @@
         }
     </style>
 <base target="_blank">
-<base target="_blank">
-<base target="_blank">
-<base target="_blank">
 </head>
 <body>
     <div class="container">
@@ -1233,27 +1230,32 @@
             const activeTab = document.querySelector('.tab-content.active');
             const body = document.body;
 
+            // Apply the mode class BEFORE showing all tabs
             if (mode === 'units') {
                 body.classList.add('print-units-mode');
             } else {
                 body.classList.remove('print-units-mode');
             }
 
+            // Show all tabs for printing
             allTabs.forEach(tab => tab.classList.add('active'));
 
+            // Force multiple reflows to ensure styles are applied
             void body.offsetHeight;
 
-            requestAnimationFrame(() => {
-                setTimeout(() => {
-                    window.print();
+            // Use a longer delay for mobile browsers
+            const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+            const delay = isMobile ? 500 : 150;
 
-                    setTimeout(() => {
-                        allTabs.forEach(tab => tab.classList.remove('active'));
-                        if (activeTab) activeTab.classList.add('active');
-                        body.classList.remove('print-units-mode');
-                    }, 300);
-                }, 150);
-            });
+            setTimeout(() => {
+                window.print();
+
+                setTimeout(() => {
+                    allTabs.forEach(tab => tab.classList.remove('active'));
+                    if (activeTab) activeTab.classList.add('active');
+                    body.classList.remove('print-units-mode');
+                }, 300);
+            }, delay);
         }
 
         calculateElectric();
